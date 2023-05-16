@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: xbt-commandline
+  cloud:
+    config:
+      enabled: false      
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    default-property-inclusion: non-null    
+    serialization:
+      INDENT_OUTPUT: true
+      WRITE_DATES_AS_TIMESTAMPS: true
+    deserialization:
+      ACCEPT_SINGLE_VALUE_AS_ARRAY: true
+
+logging:
+  level:
+    org.crossroad.sap.tools: debug
