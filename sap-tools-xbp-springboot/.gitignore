@@ -28,7 +28,8 @@ replay_pid*
 /target/
 /.settings/
 /.project
-
+/src/main/resources/banner/
 /.classpath
 /.factorypath
-/ABAP_AS1.jcoDestination
+*.jcoDestination
+job-config.json
