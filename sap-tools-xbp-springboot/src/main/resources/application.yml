@@ -1,9 +1,11 @@
 spring:
   application:
     name: xbt-commandline
+  banner:
+    location: classpath:/banner/sig.txt    
   cloud:
     config:
-      enabled: false      
+      enabled: false            
   main:
     allow-bean-definition-overriding: true
   jackson:
@@ -16,4 +18,5 @@ spring:
 
 logging:
   level:
-    org.crossroad.sap.tools: debug
+    org.crossroad.sap.tools: error
+    org.crossroad.sap.tools.service: info

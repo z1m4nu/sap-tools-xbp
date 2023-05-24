@@ -8,6 +8,7 @@ import java.io.File;
 import org.crossroad.sap.tools.data.JobData;
 import org.crossroad.sap.tools.service.AbstractJCO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -16,21 +17,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public abstract class AbstractXBT extends AbstractJCO {
-	
+
 	private JobData jobConfig = null;
 
-	@Autowired
+	
 	XMIService xmiService;
 
+	public AbstractXBT() {
+		super();
+		xmiService = new XMIService();
+	}
 
-	protected void parseJobConfig(String jobFile) throws XBTException {
-		try {
-		ObjectMapper mapper = new ObjectMapper();
-		jobConfig = mapper.readValue(new File(jobFile), JobData.class);
-		} catch(Exception e)
-		{
-			throw new XBTException(e);
-		}
+	protected void setJobData(JobData data) {
+		this.jobConfig = data;
 	}
 
 	protected JobData getJobConfig() {
@@ -54,6 +53,5 @@ public abstract class AbstractXBT extends AbstractJCO {
 	public void logoff() throws XBTException {
 		xmiService.logoff(getDestination());
 	}
-	
-	
+
 }

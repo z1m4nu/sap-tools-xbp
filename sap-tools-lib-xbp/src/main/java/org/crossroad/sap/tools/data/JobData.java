@@ -16,10 +16,10 @@ public class JobData implements Serializable {
 		 * 
 		 */
 	private static final long serialVersionUID = 1L;
-	private String jobName;
-	private String externalUser;
-	private String jobClass;
-	private String jobCount;
+	private String name;
+	private String user;
+	private String type;
+	private String id;
 	
 	private JobExecution execution;
 	
@@ -28,38 +28,38 @@ public class JobData implements Serializable {
 	/**
 	 * @return the jobName
 	 */
-	public String getJobName() {
-		return jobName;
+	public String getName() {
+		return name;
 	}
 	/**
 	 * @param jobName the jobName to set
 	 */
-	public void setJobName(String jobName) {
-		this.jobName = jobName;
+	public void setName(String jobName) {
+		this.name = jobName;
 	}
 	/**
 	 * @return the externalUser
 	 */
-	public String getExternalUser() {
-		return externalUser;
+	public String getUser() {
+		return user;
 	}
 	/**
 	 * @param externalUser the externalUser to set
 	 */
-	public void setExternalUser(String externalUser) {
-		this.externalUser = externalUser;
+	public void setUser(String externalUser) {
+		this.user = externalUser;
 	}
 	/**
 	 * @return the jobClass
 	 */
-	public String getJobClass() {
-		return jobClass;
+	public String getType() {
+		return type;
 	}
 	/**
 	 * @param jobClass the jobClass to set
 	 */
-	public void setJobClass(String jobClass) {
-		this.jobClass = jobClass;
+	public void setType(String jobClass) {
+		this.type = jobClass;
 	}
 	/**
 	 * @return the steps
@@ -76,14 +76,14 @@ public class JobData implements Serializable {
 	/**
 	 * @return the jobCount
 	 */
-	public String getJobCount() {
-		return jobCount;
+	public String getId() {
+		return id;
 	}
 	/**
 	 * @param jobCount the jobCount to set
 	 */
-	public void setJobCount(String jobCount) {
-		this.jobCount = jobCount;
+	public void setId(String jobCount) {
+		this.id = jobCount;
 	}
 	/**
 	 * @return the execution

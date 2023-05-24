@@ -1,7 +1,7 @@
 {
-    "externalUser": "SODENEM",
-    "jobClass": "C",
-    "jobName": "ZTEST",
+    "user": "SODENEM",
+    "type": "C",
+    "name": "ZTEST",
 	"execution": {
 		"mode" : "immediate",
 		"targetServer": "",
@@ -12,14 +12,14 @@
             "rank" : 2,
             "language": "FR",
             "program": "BTC_TEST_WAIT",
-            "stepUser": "SODEE",
+            "user": "SODEE",
             "variant": "Z20SEC"
         },
         {
             "rank":1,
             "language": "FR",
             "program": "BTC_TEST_WAIT",
-            "stepUser": "DDIC",
+            "user": "DDIC",
             "variant": "Z30SEC"
         }
     ]

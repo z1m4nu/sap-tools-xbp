@@ -19,5 +19,6 @@
 
 	<modules>
 		<module>sap-tools-xbp-springboot</module>
+		<module>sap-tools-lib-xbp</module>
 	</modules>
 </project>

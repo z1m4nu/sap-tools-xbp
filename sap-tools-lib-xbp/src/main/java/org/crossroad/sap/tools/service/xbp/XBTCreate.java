@@ -10,7 +10,6 @@ import org.crossroad.sap.tools.data.JobData;
 import org.crossroad.sap.tools.data.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.sap.conn.jco.JCoFunction;
@@ -22,11 +21,11 @@ import com.sap.conn.jco.JCoParameterList;
  */
 
 @Component
-public class XBTCreate extends XBTExecute {
+public class XBTCreate extends AbstractXBT {
 	private static final Logger log = LoggerFactory.getLogger(XBTCreate.class);
 
 
-	public int createJob(String destinationName, String jobDefinitionFile, boolean wait) throws XBTException {
+	public JobData createJob(String destinationName, JobData data) throws XBTException {
 
 		try {
 			/*
@@ -34,7 +33,7 @@ public class XBTCreate extends XBTExecute {
 			 */
 			this.createDestination(destinationName);
 
-			parseJobConfig(jobDefinitionFile);
+			this.setJobData(data);
 
 			/*
 			 * XBT Login
@@ -50,11 +49,13 @@ public class XBTCreate extends XBTExecute {
 			 * Add step
 			 */
 			addStep();
+			
+			log.info("Job '{}' ({}) created.", getJobConfig().getName(), getJobConfig().getId());
 
 			/*
 			 * Execute
 			 */
-			return executeJob(wait);
+			return getJobConfig();
 
 		} catch (XBTException e) {
 			throw e;
@@ -76,12 +77,12 @@ public class XBTCreate extends XBTExecute {
 		try {
 			JCoFunction function = getDestination().getRepository().getFunction("BAPI_XBP_JOB_OPEN");
 
-			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getJobName());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getExternalUser());
-			function.getImportParameterList().setValue("JOBCLASS", getJobConfig().getJobClass());
+			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getName());
+			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getUser());
+			function.getImportParameterList().setValue("JOBCLASS", getJobConfig().getType());
 
 			JCoParameterList data = execute(function);
-			getJobConfig().setJobCount(data.getField("JOBCOUNT").getString());
+			getJobConfig().setId(data.getField("JOBCOUNT").getString());
 
 			log.debug("RFC - FM Job Open successful ");
 		} catch (Exception e) {
@@ -97,9 +98,9 @@ public class XBTCreate extends XBTExecute {
 	private void addStep() throws XBTException {
 		try {
 			JCoFunction function = getDestination().getRepository().getFunction("BAPI_XBP_JOB_ADD_ABAP_STEP");
-			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getJobName());
-			function.getImportParameterList().setValue("JOBCOUNT", getJobConfig().getJobCount());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getExternalUser());
+			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getName());
+			function.getImportParameterList().setValue("JOBCOUNT", getJobConfig().getId());
+			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getUser());
 
 			List<JobStep> steps = getJobConfig().getSteps();
 
@@ -113,12 +114,12 @@ public class XBTCreate extends XBTExecute {
 			for (JobStep step : steps) {
 				function.getImportParameterList().setValue("ABAP_PROGRAM_NAME", step.getProgram());
 				function.getImportParameterList().setValue("ABAP_VARIANT_NAME", step.getVariant());
-				function.getImportParameterList().setValue("SAP_USER_NAME", step.getStepUser());
+				function.getImportParameterList().setValue("SAP_USER_NAME", step.getUser());
 				function.getImportParameterList().setValue("LANGUAGE", step.getLanguage());
 
 				JCoParameterList data = execute(function);
 				
-				log.debug("Step '{}' with variant '{}' added to job '{}'", step.getProgram(), step.getVariant(), getJobConfig().getJobName());
+				log.debug("Step '{}' with variant '{}' added to job '{}'", step.getProgram(), step.getVariant(), getJobConfig().getName());
 			}
 
 			log.debug("RFC - FM Job Step added successful ");

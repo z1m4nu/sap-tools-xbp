@@ -9,7 +9,7 @@ public class JobStep implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String program;
 	private String variant;
-	private String stepUser;
+	private String user;
 	private String language;
 	private int rank;
 
@@ -44,15 +44,15 @@ public class JobStep implements Serializable {
 	/**
 	 * @return the stepUser
 	 */
-	public String getStepUser() {
-		return stepUser;
+	public String getUser() {
+		return user;
 	}
 
 	/**
 	 * @param stepUser the stepUser to set
 	 */
-	public void setStepUser(String stepUser) {
-		this.stepUser = stepUser;
+	public void setUser(String stepUser) {
+		this.user = stepUser;
 	}
 
 	/**

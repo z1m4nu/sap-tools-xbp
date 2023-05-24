@@ -3,15 +3,25 @@
  */
 package org.crossroad.sap.tools;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.crossroad.sap.tools.data.JobData;
+import org.crossroad.sap.tools.data.JobOptions;
+import org.crossroad.sap.tools.data.OPERATION;
+import org.crossroad.sap.tools.service.JobProcessor;
 import org.crossroad.sap.tools.service.job.JcoQueryJobs;
+import org.crossroad.sap.tools.service.xbp.XBTConfigGenrator;
 import org.crossroad.sap.tools.service.xbp.XBTCreate;
-import org.crossroad.sap.tools.service.xbp.XBTResources;
+import org.crossroad.sap.tools.service.xbp.XBTExecute;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,16 +32,11 @@ import org.springframework.util.StringUtils;
  *
  */
 @SpringBootApplication(scanBasePackageClasses = { Application.class })
-public class Application implements ApplicationRunner {
-	@Autowired
-	XBTCreate xbtCreate;
+public class Application implements CommandLineRunner {
+	private static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	@Autowired
-	XBTResources xbtResource;
-
-	@Autowired
-	JcoQueryJobs jcoQueryJobs;
-
+	JobProcessor processor;
 	public static void main(String[] args) throws Exception {
 		SpringApplication application = new SpringApplication(Application.class);
 		application.setWebApplicationType(WebApplicationType.NONE);
@@ -39,58 +44,74 @@ public class Application implements ApplicationRunner {
 	}
 
 	@Override
-	public void run(ApplicationArguments args) throws Exception {
-		List<String> destinations = new LinkedList<>();
-		List<String> jobFiles = new LinkedList<>();
-		boolean waitOnExecute = false;
-		OPERATION operation = OPERATION.HELP;
-		String extUserName = null;
-		if (args.containsOption("xbt-create")) {
-			operation = OPERATION.XBTCREATE;
-			jobFiles.addAll(args.getOptionValues("xbt-create"));
+	public void run(String... args) throws Exception {
+		log.info("EXECUTING : command line runner");
+		Options options = new Options();
+		/*
+		 * Destination
+		 */
+		options.addOption(new Option("c", "create", true, "Create a job based on the job description"));
+		options.addOption(new Option("C", "create-run", true, "Create and run based on the job description"));
+		options.addOption(new Option("d", "destination", true, "Set the destination to use to connect."));
 
-		} else if (args.containsOption("resources")) {
-			operation = OPERATION.RESOURCES;
-			extUserName = args.getOptionValues("resources").get(0).toUpperCase();
-		}
+		Option option = new Option("g", "generate-job-config", true, "Generate job definition");
+		option.setOptionalArg(true);
+		option.setRequired(false);
+		options.addOption(option);
+		
+		option = new Option("w", "wait-time", true, "Specify a wait time for operation in ms.");
+		option.setOptionalArg(true);
+		option.setRequired(false);
+		options.addOption(option);
+		
+		
 
-		if (args.containsOption("destination")) {
-			destinations.addAll(args.getOptionValues("destination"));
-		}
+		options.addOption(new Option("h", "help", false, "Show this help"));
+		options.addOption(new Option("v", "version", false, "print the version information and exit"));
 
-		if (args.containsOption("wait")) {
-			waitOnExecute = true;
-		}
+		options.addOption(new Option(null, "spring.output.ansi.enabled", true, "Spring ansi output"));
+		CommandLineParser parser = new DefaultParser();
 
-		switch (operation) {
-		case XBTCREATE:
-			if (!destinations.isEmpty() && !jobFiles.isEmpty()) {
-				for (String destinationName : destinations) {
-					for (String jobFile : jobFiles) {
-						xbtCreate.createJob(destinationName, jobFile, waitOnExecute);
-					}
-				}
+	
+		JobOptions jobOptions = new JobOptions();
+		try {
+			// parse the command line arguments
+			CommandLine line = parser.parse(options, args, false);
+			// has the buildfile argument been passed?
+			if (line.hasOption("help")) {
+				jobOptions.setOperation(OPERATION.HELP);
+			} else if (line.hasOption("create")) {
+				jobOptions.setOperation(OPERATION.CREATE);
+				jobOptions.setJobFile(line.getOptionValue("create"));
+			} else if (line.hasOption("create-run")) {
+				jobOptions.setOperation(OPERATION.CREATERUN);
+				jobOptions.setJobFile(line.getOptionValue("create-run"));
+			}else if (line.hasOption("generate-job-config")) {
+				jobOptions.setOperation(OPERATION.GENERATE);
+				jobOptions.setJobFile(line.getOptionValue("generate-job-config","job-config.json"));
 			}
-			break;
-		case QUERY:
-			if (!destinations.isEmpty() && !jobFiles.isEmpty()) {
-				for (String destinationName : destinations) {
-					jcoQueryJobs.getRunningJob(destinationName);
-				}
+
+			if (line.hasOption("destination")) {
+				// initialise the member variable
+				jobOptions.setDestination(line.getOptionValue("destination"));
 			}
-			break;
-		case RESOURCES:
-			if (!destinations.isEmpty() && StringUtils.hasText(extUserName)) {
-				for (String destinationName : destinations) {
-					xbtResource.check(destinationName, extUserName);
-				}
+			
+			if (line.hasOption("wait-time")) {
+				jobOptions.setWaitTime(line.getOptionValue("wait-time","5s"));
 			}
-			break;
-		case HELP:
-		default:
-			break;
+
+		} catch (ParseException exp) {
+			// oops, something went wrong
+			System.err.println("Parsing failed.  Reason: " + exp.getMessage());
 		}
 
+		if (jobOptions.getOperation() == OPERATION.HELP)
+		{
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("XBT Tools", options);
+		} else {
+			processor.process(jobOptions);
+		}
 	}
 
 }

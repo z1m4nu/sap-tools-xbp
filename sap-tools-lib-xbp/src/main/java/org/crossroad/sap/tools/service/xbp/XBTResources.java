@@ -5,17 +5,14 @@ package org.crossroad.sap.tools.service.xbp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoParameterList;
-import com.sap.conn.jco.JCoTable;
 
 /**
  * @author e.soden
  *
  */
-@Component
 public class XBTResources extends AbstractXBT {
 	private static final Logger log = LoggerFactory.getLogger(XBTResources.class);
 
@@ -30,8 +27,6 @@ public class XBTResources extends AbstractXBT {
 			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", extUserName);
 
 			JCoParameterList data = execute(function);
-			//JCoTable table = data.getTable("RESOURCE_INFO");
-
 			log.debug("RFC - FM Job Open successful ");
 		} catch (Exception e) {
 			throw new XBTException(e);
