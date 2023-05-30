@@ -1,4 +1,4 @@
-package org.crossroad.sap.tools.data;
+package org.crossroad.sap.tools.xbp.core.data;
 
 import java.io.Serializable;
 

@@ -1,19 +1,19 @@
-package org.crossroad.sap.tools.service;
+package org.crossroad.sap.tools.xbp.core.service;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.crossroad.sap.tools.data.JobData;
-import org.crossroad.sap.tools.data.JobOptions;
-import org.crossroad.sap.tools.data.OPERATION;
-import org.crossroad.sap.tools.data.TimeUtils;
-import org.crossroad.sap.tools.service.job.JcoQueryJobs;
-import org.crossroad.sap.tools.service.xbp.XBTConfigGenrator;
-import org.crossroad.sap.tools.service.xbp.XBTCreate;
-import org.crossroad.sap.tools.service.xbp.XBTException;
-import org.crossroad.sap.tools.service.xbp.XBTExecute;
+import org.crossroad.sap.tools.xbp.core.data.JobData;
+import org.crossroad.sap.tools.xbp.core.data.JobOptions;
+import org.crossroad.sap.tools.xbp.core.data.OPERATION;
+import org.crossroad.sap.tools.xbp.core.data.TimeUtils;
+import org.crossroad.sap.tools.xbp.core.service.job.JcoQueryJobs;
+import org.crossroad.sap.tools.xbp.core.service.xbp.XBTConfigGenrator;
+import org.crossroad.sap.tools.xbp.core.service.xbp.XBTCreate;
+import org.crossroad.sap.tools.xbp.core.service.xbp.XBTException;
+import org.crossroad.sap.tools.xbp.core.service.xbp.XBTExecute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

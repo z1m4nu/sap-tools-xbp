@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.service.job;
+package org.crossroad.sap.tools.xbp.core.service.job;
 
-import org.crossroad.sap.tools.service.AbstractJCO;
-import org.crossroad.sap.tools.service.xbp.XBTException;
+import org.crossroad.sap.tools.xbp.core.service.AbstractJCO;
+import org.crossroad.sap.tools.xbp.core.service.xbp.XBTException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

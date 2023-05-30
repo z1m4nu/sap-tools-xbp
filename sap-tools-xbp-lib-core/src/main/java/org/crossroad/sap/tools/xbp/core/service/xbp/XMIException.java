@@ -1,13 +1,13 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.service;
+package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 /**
  * @author e.soden
  *
  */
-public class JCORuntimeException extends RuntimeException {
+public class XMIException extends RuntimeException {
 
 	/**
 	 * 
@@ -17,14 +17,14 @@ public class JCORuntimeException extends RuntimeException {
 	/**
 	 * 
 	 */
-	public JCORuntimeException() {
+	public XMIException() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param message
 	 */
-	public JCORuntimeException(String message) {
+	public XMIException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
@@ -32,7 +32,7 @@ public class JCORuntimeException extends RuntimeException {
 	/**
 	 * @param cause
 	 */
-	public JCORuntimeException(Throwable cause) {
+	public XMIException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -41,7 +41,7 @@ public class JCORuntimeException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public JCORuntimeException(String message, Throwable cause) {
+	public XMIException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -52,7 +52,7 @@ public class JCORuntimeException extends RuntimeException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public JCORuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public XMIException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}

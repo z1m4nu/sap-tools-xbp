@@ -1,25 +1,30 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.service.job;
+package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 /**
  * @author e.soden
  *
  */
-public class JobException extends RuntimeException {
+public class XBTException extends RuntimeException {
 
 	/**
 	 * 
 	 */
-	public JobException() {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	public XBTException() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param message
 	 */
-	public JobException(String message) {
+	public XBTException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
@@ -27,7 +32,7 @@ public class JobException extends RuntimeException {
 	/**
 	 * @param cause
 	 */
-	public JobException(Throwable cause) {
+	public XBTException(Throwable cause) {
 		super(cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -36,7 +41,7 @@ public class JobException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public JobException(String message, Throwable cause) {
+	public XBTException(String message, Throwable cause) {
 		super(message, cause);
 		// TODO Auto-generated constructor stub
 	}
@@ -47,7 +52,7 @@ public class JobException extends RuntimeException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public JobException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+	public XBTException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}

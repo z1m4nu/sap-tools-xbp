@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.data;
+package org.crossroad.sap.tools.xbp.core.data;
 
 /**
  * @author e.soden

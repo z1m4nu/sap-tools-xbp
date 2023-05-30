@@ -1,15 +1,15 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.service.xbp;
+package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.crossroad.sap.tools.data.JobData;
-import org.crossroad.sap.tools.data.JobExecution;
-import org.crossroad.sap.tools.data.JobStep;
+import org.crossroad.sap.tools.xbp.core.data.JobData;
+import org.crossroad.sap.tools.xbp.core.data.JobExecution;
+import org.crossroad.sap.tools.xbp.core.data.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

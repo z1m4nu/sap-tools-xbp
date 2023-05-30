@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.service;
+package org.crossroad.sap.tools.xbp.core.service;
 
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;

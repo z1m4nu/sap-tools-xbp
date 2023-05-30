@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.service.xbp;
+package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoParameterList;

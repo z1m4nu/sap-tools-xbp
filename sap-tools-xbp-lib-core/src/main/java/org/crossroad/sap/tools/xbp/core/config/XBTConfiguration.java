@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.config;
+package org.crossroad.sap.tools.xbp.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
