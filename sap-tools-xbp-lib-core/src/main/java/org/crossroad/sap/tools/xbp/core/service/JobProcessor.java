@@ -1,9 +1,6 @@
 package org.crossroad.sap.tools.xbp.core.service;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.crossroad.sap.tools.xbp.core.service.job.JcoQueryJobs;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBTConfigGenrator;
@@ -11,14 +8,13 @@ import org.crossroad.sap.tools.xbp.core.service.xbp.XBTCreate;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBTException;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBTExecute;
 import org.crossroad.sap.tools.xbp.data.OPERATION;
-import org.crossroad.sap.tools.xbp.data.TimeUtils;
 import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.crossroad.sap.tools.xbp.data.job.JobOptions;
+import org.crossroad.sap.tools.xbp.data.utils.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
