@@ -19,6 +19,6 @@
 
 	<modules>
 		<module>sap-tools-xbp-app-console</module>
-		<module>sap-tools-lib-xbp</module>
+		<module>sap-tools-xbp-lib-core</module>
 	</modules>
 </project>
