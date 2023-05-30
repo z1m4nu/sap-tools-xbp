@@ -18,7 +18,7 @@
 	</properties>
 
 	<modules>
-		<module>sap-tools-xbp-springboot-console</module>
+		<module>sap-tools-xbp-app-console</module>
 		<module>sap-tools-lib-xbp</module>
 	</modules>
 </project>
