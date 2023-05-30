@@ -11,7 +11,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.crossroad.sap.tools.xbp.core.XBPCore;
-import org.crossroad.sap.tools.xbp.core.service.JobProcessor;
 import org.crossroad.sap.tools.xbp.data.OPERATION;
 import org.crossroad.sap.tools.xbp.data.job.JobOptions;
 import org.slf4j.Logger;

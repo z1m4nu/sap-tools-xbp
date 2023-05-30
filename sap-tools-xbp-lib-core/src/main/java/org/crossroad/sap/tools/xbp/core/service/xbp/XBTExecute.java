@@ -4,7 +4,7 @@
 package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 import org.crossroad.sap.tools.xbp.data.BTCSTATUS;
-import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.JobContainer;
 import org.crossroad.sap.tools.xbp.data.utils.TimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,16 +19,16 @@ import com.sap.conn.jco.JCoFunction;
 @Component
 public class XBTExecute extends XBTStatus {
 	private static final Logger log = LoggerFactory.getLogger(XBTExecute.class);
-
+private JobContainer container = null;
 	
-	public int executeJob(String destinationName, JobData data, long waitTime) throws XBTException {
+	public int executeJob(String destinationName, JobContainer data, long waitTime) throws XBTException {
 		try {
+			this.container = data;
 			/*
 			 * Create destination
 			 */
 			this.createDestination(destinationName);
 
-			setJobData(data);
 
 			/*
 			 * XBT Login
@@ -53,23 +53,23 @@ public class XBTExecute extends XBTStatus {
 		int status = 0;
 		try {
 			JCoFunction function = getDestination().getRepository().getFunction("BAPI_XBP_JOB_START_IMMEDIATELY");
-			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getName());
-			function.getImportParameterList().setValue("JOBCOUNT", getJobConfig().getId());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getUser());
+			function.getImportParameterList().setValue("JOBNAME", this.container.getJob().getName());
+			function.getImportParameterList().setValue("JOBCOUNT", this.container.getJob().getJobCount());
+			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", this.container.getJob().getExtUsername());
 			function.getImportParameterList().setValue("TARGET_SERVER",
-					getJobConfig().getExecution().getTargetServer());
+					this.container.getExecution().getTargetServer());
 
 			execute(function);
 
 			if (waitTime >0) {
 				String hms = TimeUtils.milliTohms(waitTime);
 				
-				String jobStatus = getStatus();
+				String jobStatus = getStatus(this.container.getJob());
 				do {
 					log.info("Status return '{}' wait another {}.", jobStatus, hms);
 					Thread.currentThread().sleep(waitTime);
 
-					jobStatus = getStatus();
+					jobStatus = getStatus(this.container.getJob());
 				} while ("R".equalsIgnoreCase(jobStatus));
 
 				status = BTCSTATUS.valueOf(jobStatus.charAt(0)).getStatus();

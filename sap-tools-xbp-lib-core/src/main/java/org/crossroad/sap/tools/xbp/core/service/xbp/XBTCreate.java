@@ -6,7 +6,7 @@ package org.crossroad.sap.tools.xbp.core.service.xbp;
 import java.util.Comparator;
 import java.util.List;
 
-import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.JobContainer;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +23,17 @@ import com.sap.conn.jco.JCoParameterList;
 @Component
 public class XBTCreate extends AbstractXBT {
 	private static final Logger log = LoggerFactory.getLogger(XBTCreate.class);
+	private JobContainer container = null;
 
-
-	public JobData createJob(String destinationName, JobData data) throws XBTException {
+	public String createJob(String destinationName, JobContainer container) throws XBTException {
 
 		try {
+		
+			this.container = container;
 			/*
 			 * Create destination
 			 */
 			this.createDestination(destinationName);
-
-			this.setJobData(data);
 
 			/*
 			 * XBT Login
@@ -49,13 +49,14 @@ public class XBTCreate extends AbstractXBT {
 			 * Add step
 			 */
 			addStep();
-			
-			log.info("Job '{}' ({}) created.", getJobConfig().getName(), getJobConfig().getId());
+
+			log.info("Job '{}' ({}) created.", this.container.getJob().getName(),
+					this.container.getJob().getJobCount());
 
 			/*
 			 * Execute
 			 */
-			return getJobConfig();
+			return this.container.getJob().getJobCount();
 
 		} catch (XBTException e) {
 			throw e;
@@ -68,7 +69,7 @@ public class XBTCreate extends AbstractXBT {
 	}
 
 	/**
-	 * Create the job specified in parsed class {@link JobData}
+	 * Create the job specified in parsed class {@link JobContainer}
 	 * 
 	 * @throws XBTException
 	 */
@@ -77,12 +78,12 @@ public class XBTCreate extends AbstractXBT {
 		try {
 			JCoFunction function = getDestination().getRepository().getFunction("BAPI_XBP_JOB_OPEN");
 
-			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getName());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getUser());
-			function.getImportParameterList().setValue("JOBCLASS", getJobConfig().getType());
+			function.getImportParameterList().setValue("JOBNAME", this.container.getJob().getName());
+			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", this.container.getJob().getExtUsername());
+			function.getImportParameterList().setValue("JOBCLASS", this.container.getJob().getJobClass());
 
 			JCoParameterList data = execute(function);
-			getJobConfig().setId(data.getField("JOBCOUNT").getString());
+			this.container.getJob().setJobCount(data.getField("JOBCOUNT").getString());
 
 			log.debug("RFC - FM Job Open successful ");
 		} catch (Exception e) {
@@ -98,11 +99,11 @@ public class XBTCreate extends AbstractXBT {
 	private void addStep() throws XBTException {
 		try {
 			JCoFunction function = getDestination().getRepository().getFunction("BAPI_XBP_JOB_ADD_ABAP_STEP");
-			function.getImportParameterList().setValue("JOBNAME", getJobConfig().getName());
-			function.getImportParameterList().setValue("JOBCOUNT", getJobConfig().getId());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getJobConfig().getUser());
+			function.getImportParameterList().setValue("JOBNAME", this.container.getJob().getName());
+			function.getImportParameterList().setValue("JOBCOUNT", this.container.getJob().getJobCount());
+			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", this.container.getJob().getExtUsername());
 
-			List<JobStep> steps = getJobConfig().getSteps();
+			List<JobStep> steps = this.container.getSteps();
 
 			steps.sort(new Comparator<JobStep>() {
 				@Override
@@ -118,8 +119,9 @@ public class XBTCreate extends AbstractXBT {
 				function.getImportParameterList().setValue("LANGUAGE", step.getLanguage());
 
 				JCoParameterList data = execute(function);
-				
-				log.debug("Step '{}' with variant '{}' added to job '{}'", step.getProgram(), step.getVariant(), getJobConfig().getName());
+
+				log.debug("Step '{}' with variant '{}' added to job '{}'", step.getProgram(), step.getVariant(),
+						this.container.getJob().getName());
 			}
 
 			log.debug("RFC - FM Job Step added successful ");

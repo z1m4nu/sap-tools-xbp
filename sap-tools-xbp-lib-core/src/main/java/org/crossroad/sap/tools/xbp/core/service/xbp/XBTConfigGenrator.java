@@ -7,8 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.JobContainer;
 import org.crossroad.sap.tools.xbp.data.job.JobExecution;
+import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,11 +32,13 @@ public class XBTConfigGenrator {
 	ObjectMapper mapper;
 
 	public void generate(String path) throws XBTException {
-		JobData data = new JobData();
+		JobContainer data = new JobContainer();
+		Job key = new Job();
+		key.setName("JOBNAME");
+		key.setExtUsername("JOB_USERNAME");
+		key.setJobClass("C");
 
-		data.setName("JOBNAME");
-		data.setType("C");
-		data.setUser("JOB_USERNAME");
+		data.setJob(key);
 		JobExecution exec = new JobExecution();
 		exec.setMode("immediate");
 		data.setExecution(exec);

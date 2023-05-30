@@ -3,22 +3,13 @@
  */
 package org.crossroad.sap.tools.xbp.core.service.xbp;
 
-import java.io.File;
-
 import org.crossroad.sap.tools.xbp.core.service.AbstractJCO;
-import org.crossroad.sap.tools.xbp.data.job.JobData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author e.soden
  *
  */
 public abstract class AbstractXBT extends AbstractJCO {
-
-	private JobData jobConfig = null;
 
 	
 	XMIService xmiService;
@@ -28,13 +19,6 @@ public abstract class AbstractXBT extends AbstractJCO {
 		xmiService = new XMIService();
 	}
 
-	protected void setJobData(JobData data) {
-		this.jobConfig = data;
-	}
-
-	protected JobData getJobConfig() {
-		return jobConfig;
-	}
 
 	/**
 	 * @param destination

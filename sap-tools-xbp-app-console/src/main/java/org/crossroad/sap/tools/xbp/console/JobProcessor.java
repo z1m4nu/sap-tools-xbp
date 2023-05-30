@@ -1,4 +1,4 @@
-package org.crossroad.sap.tools.xbp.core.service;
+package org.crossroad.sap.tools.xbp.console;
 
 import java.io.File;
 
@@ -8,7 +8,8 @@ import org.crossroad.sap.tools.xbp.core.service.xbp.XBTCreate;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBTException;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBTExecute;
 import org.crossroad.sap.tools.xbp.data.OPERATION;
-import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.Job;
+import org.crossroad.sap.tools.xbp.data.job.JobContainer;
 import org.crossroad.sap.tools.xbp.data.job.JobOptions;
 import org.crossroad.sap.tools.xbp.data.utils.TimeUtils;
 import org.slf4j.Logger;
@@ -44,9 +45,9 @@ public class JobProcessor {
 		case CREATE:
 		case CREATERUN:
 			try {
-				JobData data = mapper.readValue(new File(options.getJobFile()), JobData.class);
+				JobContainer data = mapper.readValue(new File(options.getJobFile()), JobContainer.class);
 
-				data = xbtCreate.createJob(options.getDestination(), data);
+				data.getJob().setJobCount(xbtCreate.createJob(options.getDestination(), data));
 
 				if (options.getOperation() == OPERATION.CREATERUN) {
 					xbtExecute.executeJob(options.getDestination(), data, TimeUtils.parseTime(options.getWaitTime()));
