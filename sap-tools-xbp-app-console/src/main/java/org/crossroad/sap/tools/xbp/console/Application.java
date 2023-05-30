@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools;
+package org.crossroad.sap.tools.xbp.console;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -10,9 +10,10 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.crossroad.sap.tools.data.JobOptions;
-import org.crossroad.sap.tools.data.OPERATION;
-import org.crossroad.sap.tools.service.JobProcessor;
+import org.crossroad.sap.tools.xbp.core.XBPCore;
+import org.crossroad.sap.tools.xbp.core.service.JobProcessor;
+import org.crossroad.sap.tools.xbp.data.OPERATION;
+import org.crossroad.sap.tools.xbp.data.job.JobOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author e.soden
  *
  */
-@SpringBootApplication(scanBasePackageClasses = { Application.class })
+@SpringBootApplication(scanBasePackageClasses = { XBPCore.class })
 public class Application implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.crossroad</groupId>
-    <artifactId>sap.tools</artifactId>
+    <artifactId>sap.tools.xbp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>sap-tools-xbp-app-console</artifactId>
@@ -10,7 +10,7 @@
   <dependencies>
 	<dependency>
     <groupId>org.crossroad</groupId>
-     <artifactId>sap-tools-lib-xbp</artifactId>
+     <artifactId>sap-tools-xbp-lib-core</artifactId>
      <version>0.0.1-SNAPSHOT</version>
     </dependency>
     <dependency>

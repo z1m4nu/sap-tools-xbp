@@ -21,5 +21,6 @@
 		<module>sap-tools-xbp-app-console</module>
 		<module>sap-tools-xbp-lib-core</module>
 		<module>sap-tools-xbp-app-backend</module>
+		<module>sap-tools-xbp-lib-data</module>
 	</modules>
 </project>

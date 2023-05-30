@@ -1,7 +1,9 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.xbp.core.data;
+package org.crossroad.sap.tools.xbp.data.job;
+
+import org.crossroad.sap.tools.xbp.data.OPERATION;
 
 /**
  * @author e.soden

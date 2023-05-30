@@ -5,22 +5,8 @@
     <artifactId>sap.tools.xbp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>sap-tools-xbp-lib-core</artifactId>
-  
-    <dependencies>
-	<dependency>
-    <groupId>com.sap.conn.jco</groupId>
-    <artifactId>com.sap.conn.jco.sapjco3</artifactId>
-    <version>3.1.7</version>
-    </dependency>
-    	<dependency>
-    <groupId>org.crossroad</groupId>
-     <artifactId>sap-tools-xbp-lib-data</artifactId>
-     <version>0.0.1-SNAPSHOT</version>
-    </dependency>
-  </dependencies>
-  
-  	<build>
+  <artifactId>sap-tools-xbp-lib-data</artifactId>
+    	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

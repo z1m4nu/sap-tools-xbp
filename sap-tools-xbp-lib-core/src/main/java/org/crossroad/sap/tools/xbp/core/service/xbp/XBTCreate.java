@@ -6,8 +6,8 @@ package org.crossroad.sap.tools.xbp.core.service.xbp;
 import java.util.Comparator;
 import java.util.List;
 
-import org.crossroad.sap.tools.xbp.core.data.JobData;
-import org.crossroad.sap.tools.xbp.core.data.JobStep;
+import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

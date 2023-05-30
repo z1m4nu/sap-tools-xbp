@@ -7,9 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.crossroad.sap.tools.xbp.core.data.JobData;
-import org.crossroad.sap.tools.xbp.core.data.JobExecution;
-import org.crossroad.sap.tools.xbp.core.data.JobStep;
+import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.JobExecution;
+import org.crossroad.sap.tools.xbp.data.job.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

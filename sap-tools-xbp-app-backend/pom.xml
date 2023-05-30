@@ -6,15 +6,16 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>sap-tools-xbp-app-backend</artifactId>
-  <name>SAP XBP Scheduler server</name>
   
   <dependencies>
 	<dependency>
     <groupId>org.crossroad</groupId>
-     <artifactId>sap-tools-lib-xbp</artifactId>
+     <artifactId>sap-tools-xbp-lib-core</artifactId>
      <version>0.0.1-SNAPSHOT</version>
     </dependency>
+   
   </dependencies>
+  
   
 
 </project>

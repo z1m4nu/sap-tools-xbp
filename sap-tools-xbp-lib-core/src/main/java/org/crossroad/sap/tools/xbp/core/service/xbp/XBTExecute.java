@@ -3,9 +3,9 @@
  */
 package org.crossroad.sap.tools.xbp.core.service.xbp;
 
-import org.crossroad.sap.tools.xbp.core.data.BTCSTATUS;
-import org.crossroad.sap.tools.xbp.core.data.JobData;
-import org.crossroad.sap.tools.xbp.core.data.TimeUtils;
+import org.crossroad.sap.tools.xbp.data.BTCSTATUS;
+import org.crossroad.sap.tools.xbp.data.TimeUtils;
+import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

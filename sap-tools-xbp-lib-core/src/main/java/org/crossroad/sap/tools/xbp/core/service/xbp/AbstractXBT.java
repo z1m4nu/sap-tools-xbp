@@ -5,8 +5,8 @@ package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 import java.io.File;
 
-import org.crossroad.sap.tools.xbp.core.data.JobData;
 import org.crossroad.sap.tools.xbp.core.service.AbstractJCO;
+import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

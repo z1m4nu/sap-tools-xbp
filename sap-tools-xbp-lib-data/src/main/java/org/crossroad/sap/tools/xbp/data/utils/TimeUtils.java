@@ -1,4 +1,4 @@
-package org.crossroad.sap.tools.xbp.core.data;
+package org.crossroad.sap.tools.xbp.data.utils;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;

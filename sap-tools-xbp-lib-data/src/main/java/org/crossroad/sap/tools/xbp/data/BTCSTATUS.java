@@ -1,4 +1,4 @@
-package org.crossroad.sap.tools.xbp.core.data;
+package org.crossroad.sap.tools.xbp.data;
 
 import java.util.Arrays;
 import java.util.Optional;

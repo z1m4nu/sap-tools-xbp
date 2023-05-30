@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.xbp.core.data;
+package org.crossroad.sap.tools.xbp.data.job;
 
 import java.io.Serializable;
 
