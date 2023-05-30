@@ -10,14 +10,9 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.crossroad.sap.tools.data.JobData;
 import org.crossroad.sap.tools.data.JobOptions;
 import org.crossroad.sap.tools.data.OPERATION;
 import org.crossroad.sap.tools.service.JobProcessor;
-import org.crossroad.sap.tools.service.job.JcoQueryJobs;
-import org.crossroad.sap.tools.service.xbp.XBTConfigGenrator;
-import org.crossroad.sap.tools.service.xbp.XBTCreate;
-import org.crossroad.sap.tools.service.xbp.XBTExecute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +20,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.util.StringUtils;
 
 /**
  * @author e.soden
@@ -59,7 +53,7 @@ public class Application implements CommandLineRunner {
 		option.setRequired(false);
 		options.addOption(option);
 		
-		option = new Option("w", "wait-time", true, "Specify a wait time for operation in ms.");
+		option = new Option("w", "wait-time", true, "Specify a wait time for operation in format hms (HHhMMmSSs).");
 		option.setOptionalArg(true);
 		option.setRequired(false);
 		options.addOption(option);
@@ -76,7 +70,7 @@ public class Application implements CommandLineRunner {
 		JobOptions jobOptions = new JobOptions();
 		try {
 			// parse the command line arguments
-			CommandLine line = parser.parse(options, args, false);
+			CommandLine line = parser.parse(options, args, true);
 			// has the buildfile argument been passed?
 			if (line.hasOption("help")) {
 				jobOptions.setOperation(OPERATION.HELP);
