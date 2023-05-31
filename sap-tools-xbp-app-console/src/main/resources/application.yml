@@ -19,4 +19,4 @@ spring:
 logging:
   level:
     org.crossroad.sap.tools: error
-    org.crossroad.sap.tools.service: info
+    org.crossroad.sap.tools.xbp.console: info

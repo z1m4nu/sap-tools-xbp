@@ -1,3 +1,9 @@
+server:
+  address: 0.0.0.0
+  port: 9090
+  ssl:
+    key-store: file:C:\data\servers\plm-apps\etc\ssl\tomcat.jks
+    key-store-password: NewCertificateTally2022-3!  
 spring:
   application:
     name: xbt-backend-server
@@ -13,8 +19,11 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: true
     deserialization:
       ACCEPT_SINGLE_VALUE_AS_ARRAY: true
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
 
 logging:
   level:
-    org.crossroad.sap.tools.xbp: error
     org.crossroad.sap.tools.xbp: info

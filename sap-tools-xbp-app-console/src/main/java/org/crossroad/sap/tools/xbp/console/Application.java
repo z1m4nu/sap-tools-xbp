@@ -25,7 +25,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author e.soden
  *
  */
-@SpringBootApplication(scanBasePackageClasses = { XBPCore.class })
+@SpringBootApplication(scanBasePackageClasses = { XBPCore.class, Application.class })
 public class Application implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(Application.class);
 

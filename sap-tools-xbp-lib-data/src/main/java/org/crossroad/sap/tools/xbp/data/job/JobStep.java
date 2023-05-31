@@ -12,6 +12,7 @@ public class JobStep implements Serializable {
 	private String user;
 	private String language;
 	private int rank;
+	private Integer stepCount;
 
 	/**
 	 * @return the program
@@ -81,6 +82,20 @@ public class JobStep implements Serializable {
 	 */
 	public void setRank(int rank) {
 		this.rank = rank;
+	}
+
+	/**
+	 * @return the stepCount
+	 */
+	public Integer getStepCount() {
+		return stepCount;
+	}
+
+	/**
+	 * @param stepCount the stepCount to set
+	 */
+	public void setStepCount(Integer stepCount) {
+		this.stepCount = stepCount;
 	}
 
 }
