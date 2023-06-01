@@ -28,7 +28,7 @@ public class XBPConfigGenrator {
 	private static final Logger log = LoggerFactory.getLogger(XBPConfigGenrator.class);
 
 	@Autowired
-	@Qualifier(value = "xbt.mapper")
+	@Qualifier(value = "xbp.objectmapper")
 	ObjectMapper mapper;
 
 	public void generate(String path) throws XBPException {
