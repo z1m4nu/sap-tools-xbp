@@ -26,4 +26,16 @@ eureka:
 
 logging:
   level:
-    org.crossroad.sap.tools.xbp: info
+    org.crossroad.sap.tools.xbp.backend: debug
+    
+xbp:
+  jpa:
+    jdbc:
+      driver-class: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5432/xbpdb
+      username: xbpadmin
+      password: admin
+      show-sql: true
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      fetch-size: 2000
+      
