@@ -22,7 +22,7 @@ public class XMIService {
 			xmiLogon.getImportParameterList().setValue("INTERFACE", "XBP");
 			xmiLogon.getImportParameterList().setValue("VERSION", "3.0");
 			xmiLogon.execute(destination);
-
+			log.debug("XMI Retrurn\n{}\n",xmiLogon.getExportParameterList().toJSON());
 			connected = true;
 		} catch (Exception e) {
 			throw new XMIException(e);

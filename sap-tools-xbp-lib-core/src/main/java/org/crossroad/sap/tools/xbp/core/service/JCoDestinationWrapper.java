@@ -3,6 +3,8 @@
  */
 package org.crossroad.sap.tools.xbp.core.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 
 import com.sap.conn.jco.JCoDestination;
@@ -18,6 +20,7 @@ import com.sap.conn.jco.JCoStructure;
  *
  */
 public class JCoDestinationWrapper {
+	private static final Logger log = LoggerFactory.getLogger(JCoDestinationWrapper.class);
 	private JCoDestination destination = null;
 	private String name = null;
 
@@ -58,11 +61,10 @@ public class JCoDestinationWrapper {
 	 * @return
 	 * @throws JCORuntimeException
 	 */
-	public JCoParameterList execute(JCoFunction function) throws JCORuntimeException {
+	public void execute(JCoFunction function) throws JCORuntimeException {
 		JCoParameterList data = null;
 		try {
 			function.execute(this.destination);
-
 			data = function.getExportParameterList();
 			JCoStructure struct = data.getStructure("RETURN");
 			String type = struct.getString("TYPE");
@@ -76,7 +78,7 @@ public class JCoDestinationWrapper {
 		} catch (Exception e) {
 			throw new JCORuntimeException(e);
 		}
-		return data;
+		
 	}
 
 }

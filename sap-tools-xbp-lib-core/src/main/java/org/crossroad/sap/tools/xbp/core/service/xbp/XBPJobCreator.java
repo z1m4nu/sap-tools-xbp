@@ -29,8 +29,8 @@ public class XBPJobCreator {
 			jobFunction.getImportParameterList().setValue("EXTERNAL_USER_NAME", job.getExtUsername());
 			jobFunction.getImportParameterList().setValue("JOBCLASS", job.getJobClass());
 
-			JCoParameterList data = wrapper.execute(jobFunction);
-			return data.getField("JOBCOUNT").getString();
+			 wrapper.execute(jobFunction);
+			return jobFunction.getExportParameterList().getField("JOBCOUNT").getString();
 		} catch (Exception e) {
 			throw new XBPException(e);
 		}
@@ -49,9 +49,9 @@ public class XBPJobCreator {
 			stepFunction.getImportParameterList().setValue("SAP_USER_NAME", step.getUser());
 			stepFunction.getImportParameterList().setValue("LANGUAGE", step.getLanguage());
 
-			JCoParameterList data = wrapper.execute(stepFunction);
+			wrapper.execute(stepFunction);
 
-			return data.getField("STEP_NUMBER").getInt();
+			return stepFunction.getExportParameterList().getField("STEP_NUMBER").getInt();
 		} catch (Exception e) {
 			throw new XBPException(e);
 		}

@@ -27,6 +27,7 @@ eureka:
 logging:
   level:
     org.crossroad.sap.tools.xbp.backend: debug
+    org.crossroad.sap.tools.xbp.core: debug
     
 xbp:
   jpa:
