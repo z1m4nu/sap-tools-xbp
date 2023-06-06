@@ -4,7 +4,6 @@
 package org.crossroad.sap.tools.xbp.data.job.query;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author e.soden
@@ -17,24 +16,13 @@ public class JobQuery  implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-    private String externalUserName = null;
+
     private String abapName = null;
     private boolean susp = false;
     private String systemId = null;
     private String selection = "AL";
     private BAPIXMJSEL jobParam = null;
-	/**
-	 * @return the externalUserName
-	 */
-	public String getExternalUserName() {
-		return externalUserName;
-	}
-	/**
-	 * @param externalUserName the externalUserName to set
-	 */
-	public void setExternalUserName(String externalUserName) {
-		this.externalUserName = externalUserName;
-	}
+
 	/**
 	 * @return the abapName
 	 */

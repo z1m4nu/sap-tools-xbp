@@ -26,7 +26,6 @@ public class XBPJobCreator {
 		try {
 			JCoFunction jobFunction = wrapper.getFunction("BAPI_XBP_JOB_OPEN");
 			jobFunction.getImportParameterList().setValue("JOBNAME", job.getName());
-			jobFunction.getImportParameterList().setValue("EXTERNAL_USER_NAME", job.getExtUsername());
 			jobFunction.getImportParameterList().setValue("JOBCLASS", job.getJobClass());
 
 			 wrapper.execute(jobFunction);
@@ -42,7 +41,7 @@ public class XBPJobCreator {
 			JCoFunction stepFunction = wrapper.getFunction("BAPI_XBP_JOB_ADD_ABAP_STEP");
 			stepFunction.getImportParameterList().setValue("JOBNAME", job.getName());
 			stepFunction.getImportParameterList().setValue("JOBCOUNT", job.getJobCount());
-			stepFunction.getImportParameterList().setValue("EXTERNAL_USER_NAME", job.getExtUsername());
+			
 
 			stepFunction.getImportParameterList().setValue("ABAP_PROGRAM_NAME", step.getProgram());
 			stepFunction.getImportParameterList().setValue("ABAP_VARIANT_NAME", step.getVariant());

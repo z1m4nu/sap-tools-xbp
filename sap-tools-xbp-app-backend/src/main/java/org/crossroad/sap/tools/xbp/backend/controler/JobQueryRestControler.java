@@ -1,8 +1,11 @@
 package org.crossroad.sap.tools.xbp.backend.controler;
 
+import java.util.List;
+
 import org.crossroad.sap.tools.xbp.backend.service.XBPJobQueryService;
 import org.crossroad.sap.tools.xbp.backend.service.XBPJobService;
 import org.crossroad.sap.tools.xbp.data.job.JobData;
+import org.crossroad.sap.tools.xbp.data.job.query.BAPIXMJOB;
 import org.crossroad.sap.tools.xbp.data.job.query.JobQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +27,9 @@ public class JobQueryRestControler {
 	XBPJobQueryService xbpJob;
 
 	@PostMapping(path = "/{destination}")
-	public void foundJobs(@PathVariable("destination") String dest, @RequestBody(required = true) JobQuery container) {
+	public List<BAPIXMJOB> foundJobs(@PathVariable("destination") String dest, @RequestBody(required = true) JobQuery container) {
 		try {
-			xbpJob.search(dest, container);
+			return xbpJob.search(dest, container);
 		} catch (Exception e) {
 			log.error("Found job error",e);
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while processing", e);

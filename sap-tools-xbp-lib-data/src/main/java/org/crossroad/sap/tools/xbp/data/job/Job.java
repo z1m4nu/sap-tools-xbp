@@ -9,7 +9,6 @@ public class Job implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String jobCount;
-	private String extUsername;
 	private String jobClass;
 	/**
 	 * @return the name
@@ -39,19 +38,6 @@ public class Job implements Serializable {
 		this.jobCount = id;
 	}
 
-	/**
-	 * @return the extUsername
-	 */
-	public String getExtUsername() {
-		return extUsername;
-	}
-
-	/**
-	 * @param extUsername the extUsername to set
-	 */
-	public void setExtUsername(String extUsername) {
-		this.extUsername = extUsername;
-	}
 
 	/**
 	 * @return the type

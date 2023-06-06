@@ -28,6 +28,10 @@ public class JCoDestinationWrapper {
 		this.name = name;
 	}
 
+	protected String getUserName()
+	{
+		return (this.destination != null) ? this.destination.getUser() : null;
+	}
 	/**
 	 * @return the destination
 	 */
@@ -64,6 +68,8 @@ public class JCoDestinationWrapper {
 	public void execute(JCoFunction function) throws JCORuntimeException {
 		JCoParameterList data = null;
 		try {
+			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getUserName());
+			
 			function.execute(this.destination);
 			data = function.getExportParameterList();
 			JCoStructure struct = data.getStructure("RETURN");

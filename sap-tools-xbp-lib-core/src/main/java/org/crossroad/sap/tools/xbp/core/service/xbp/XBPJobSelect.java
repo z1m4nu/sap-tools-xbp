@@ -1,21 +1,36 @@
 package org.crossroad.sap.tools.xbp.core.service.xbp;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
+import org.crossroad.sap.tools.xbp.data.job.query.BAPIXMJOB;
 import org.crossroad.sap.tools.xbp.data.job.query.BAPIXMJSEL;
 import org.crossroad.sap.tools.xbp.data.job.query.JobQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sap.conn.jco.JCoFunction;
 import com.sap.conn.jco.JCoParameterList;
 import com.sap.conn.jco.JCoStructure;
+import com.sap.conn.jco.JCoTable;
 
+@Component
 public class XBPJobSelect {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
-	private final JCoDestinationWrapper wrapper;
+	private JCoDestinationWrapper wrapper;
+	
+	@Autowired
+	@Qualifier(value = "xbp.objectmapper")
+	ObjectMapper mapper;
 
-	public XBPJobSelect(JCoDestinationWrapper wrapper) {
+	public void setDestinationWrapper(JCoDestinationWrapper wrapper) {
 		this.wrapper = wrapper;
 	}
 
@@ -24,12 +39,9 @@ public class XBPJobSelect {
 	 * @param job
 	 * @return
 	 */
-	public void foundJob(JobQuery query) {
+	public List<BAPIXMJOB> foundJob(JobQuery query) {
 		try {
 			JCoFunction jobFunction = wrapper.getFunction("BAPI_XBP_JOB_SELECT");
-			//jobFunction.getImportParameterList().setValue("JOBSELECT_DIALOG", 'N');
-
-			jobFunction.getImportParameterList().setValue("EXTERNAL_USER_NAME", query.getExternalUserName());
 
 			if (query.getJobParam() != null) {
 				BAPIXMJSEL jobSel = query.getJobParam();
@@ -108,8 +120,21 @@ public class XBPJobSelect {
 			log.debug("Parameters: {}",jobFunction.getImportParameterList().toXML());
 			
 			 wrapper.execute(jobFunction);
+			 
+			 JCoTable head = jobFunction.getTableParameterList().getTable("JOB_HEAD");
+			 String json = head.toJSON();
+			 
+			 
+			 List<BAPIXMJOB> arr = new LinkedList<>();
+			 
+			 if(StringUtils.hasText(json))
+			 {
+				 json = json.toLowerCase();
+				 arr.addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOB>>(){}));
+			 }
+			 
 
-			log.debug("Parameter list: {}",jobFunction.toXML());
+			return arr;
 		} catch (Exception e) {
 			throw new XBPException(e);
 		}

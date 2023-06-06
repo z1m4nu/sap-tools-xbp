@@ -24,7 +24,7 @@ public class XBPConfiguration {
 	private static final Logger log = LoggerFactory.getLogger(XBPConfiguration.class);
 	@Bean(name = "xbp.objectmapper")
 	public ObjectMapper createMapper(@Value(value = "#{new Boolean('${xbp.mapper.fail-unknown-properties:true}')}") Boolean failUnknown) {
-		log.debug("Create springtool.lib.client.objectmapper...");
+		log.debug("Create xbp.objectmapper...");
 		
 		var mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);

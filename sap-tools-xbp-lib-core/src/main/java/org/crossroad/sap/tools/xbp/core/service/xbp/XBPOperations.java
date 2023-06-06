@@ -28,7 +28,6 @@ public class XBPOperations {
 			JCoFunction function = wrapper.getFunction("BAPI_XBP_JOB_START_IMMEDIATELY");
 			function.getImportParameterList().setValue("JOBNAME", job.getName());
 			function.getImportParameterList().setValue("JOBCOUNT", job.getJobCount());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", job.getExtUsername());
 			function.getImportParameterList().setValue("TARGET_SERVER",
 					exec.getTargetServer());
 
@@ -50,7 +49,6 @@ public class XBPOperations {
 			JCoFunction function = wrapper.getFunction("BAPI_XBP_JOB_STATUS_GET");
 			function.getImportParameterList().setValue("JOBNAME", job.getName());
 			function.getImportParameterList().setValue("JOBCOUNT", job.getJobCount());
-			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", job.getExtUsername());
 
 			wrapper.execute(function);
 			
