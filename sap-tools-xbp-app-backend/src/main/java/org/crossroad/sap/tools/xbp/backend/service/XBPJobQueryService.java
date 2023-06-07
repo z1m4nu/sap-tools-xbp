@@ -3,14 +3,11 @@
  */
 package org.crossroad.sap.tools.xbp.backend.service;
 
-import java.util.List;
-
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
-import org.crossroad.sap.tools.xbp.core.service.xbp.XBPException;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobSelect;
 import org.crossroad.sap.tools.xbp.core.service.xmi.XMIService;
-import org.crossroad.sap.tools.xbp.data.job.query.BAPIXMJOB;
 import org.crossroad.sap.tools.xbp.data.job.query.JobQuery;
+import org.crossroad.sap.tools.xbp.data.job.query.JobQueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +19,8 @@ import org.springframework.stereotype.Component;
 public class XBPJobQueryService {
 	@Autowired
 	XBPJobSelect selector;
-	public List<BAPIXMJOB> search(String destination, JobQuery data) throws XBPException{
+	
+	public JobQueryResult search(String destination, JobQuery data) {
 		JCoDestinationWrapper wrapper = null;
 		XMIService xmiService = new XMIService();
 
@@ -42,4 +40,23 @@ public class XBPJobQueryService {
 		}
 	}
 	
+	public JobQueryResult count(String destination, String job, boolean withJobs) {
+		JCoDestinationWrapper wrapper = null;
+		XMIService xmiService = new XMIService();
+
+		try {
+			wrapper = new JCoDestinationWrapper(destination);
+			wrapper.create();
+
+			xmiService.login(wrapper.getDestination());
+
+			selector.setDestinationWrapper(wrapper);
+			return selector.count(job, withJobs);
+			
+		} finally {
+			if(xmiService.isConnected()) {
+				xmiService.logoff(wrapper.getDestination());
+			}
+		}
+	}
 }

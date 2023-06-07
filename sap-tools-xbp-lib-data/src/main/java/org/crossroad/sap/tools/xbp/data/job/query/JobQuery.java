@@ -5,6 +5,8 @@ package org.crossroad.sap.tools.xbp.data.job.query;
 
 import java.io.Serializable;
 
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJSEL;
+
 /**
  * @author e.soden
  *

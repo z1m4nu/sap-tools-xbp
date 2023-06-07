@@ -6,13 +6,10 @@ package org.crossroad.sap.tools.xbp.backend.service;
 import java.util.Comparator;
 
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
-import org.crossroad.sap.tools.xbp.core.service.xbp.XBPException;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobCreator;
-import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobSelect;
 import org.crossroad.sap.tools.xbp.core.service.xmi.XMIService;
 import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
-import org.crossroad.sap.tools.xbp.data.job.query.JobQuery;
 import org.springframework.stereotype.Component;
 
 /**
@@ -27,7 +24,7 @@ public class XBPJobService {
 	 * @param destination
 	 * @param container
 	 */
-	public JobData create(String destination, JobData data) throws XBPException{
+	public JobData create(String destination, JobData data) {
 		JCoDestinationWrapper wrapper = null;
 		XMIService xmiService = new XMIService();
 

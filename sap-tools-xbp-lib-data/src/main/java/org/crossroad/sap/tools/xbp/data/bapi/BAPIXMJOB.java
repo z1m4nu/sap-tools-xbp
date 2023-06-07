@@ -1,15 +1,13 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.xbp.data.job.query;
-
-import java.io.Serializable;
+package org.crossroad.sap.tools.xbp.data.bapi;
 
 /**
  * @author e.soden
  *
  */
-public class BAPIXMJOB implements Serializable {
+public class BAPIXMJOB extends AbstractBAPI {
 
 	/**
 	 * 

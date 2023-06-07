@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
@@ -30,7 +31,7 @@ public class XBPConfigGenrator {
 	@Qualifier(value = "xbp.objectmapper")
 	ObjectMapper mapper;
 
-	public void generate(String path) throws XBPException {
+	public void generate(String path) throws JCORuntimeException {
 		JobData data = new JobData();
 		Job key = new Job();
 		key.setName("JOBNAME");
@@ -64,7 +65,7 @@ public class XBPConfigGenrator {
 
 			log.info("Template generated in '{}'", file.toAbsolutePath());
 		} catch (Exception e) {
-			throw new XBPException();
+			throw new JCORuntimeException(e,0);
 		}
 	}
 

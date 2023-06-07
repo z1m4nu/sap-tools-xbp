@@ -3,6 +3,7 @@
  */
 package org.crossroad.sap.tools.xbp.core.service.xbp;
 
+import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobExecution;
@@ -21,7 +22,7 @@ public class XBPOperations {
 	 * @return
 	 * @throws XBPException
 	 */
-	public static int execute(JCoDestinationWrapper wrapper, Job job, JobExecution exec) throws XBPException {
+	public static int execute(JCoDestinationWrapper wrapper, Job job, JobExecution exec) {
 
 		int status = 0;
 		try {
@@ -32,8 +33,10 @@ public class XBPOperations {
 					exec.getTargetServer());
 
 			wrapper.execute(function);
+		} catch (JCORuntimeException e) {
+			throw e;
 		} catch (Exception e) {
-			throw new XBPException(e);
+			throw new JCORuntimeException(e, 0);
 		}
 		return status;
 	}
@@ -44,7 +47,7 @@ public class XBPOperations {
 	 * @return
 	 * @throws XBPException
 	 */
-	public static String getJobStatus(JCoDestinationWrapper wrapper, Job job) throws XBPException {
+	public static String getJobStatus(JCoDestinationWrapper wrapper, Job job)  {
 		try {
 			JCoFunction function = wrapper.getFunction("BAPI_XBP_JOB_STATUS_GET");
 			function.getImportParameterList().setValue("JOBNAME", job.getName());
@@ -53,8 +56,10 @@ public class XBPOperations {
 			wrapper.execute(function);
 			
 			return function.getExportParameterList().getField("STATUS").getString();
+		} catch (JCORuntimeException e) {
+			throw e;
 		} catch (Exception e) {
-			throw new XBPException(e);
+			throw new JCORuntimeException(e, 0);
 		}
 		
 	}

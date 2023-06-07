@@ -2,11 +2,10 @@ package org.crossroad.sap.tools.xbp.console;
 
 import java.io.File;
 import java.util.Comparator;
-import java.util.List;
 
+import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPConfigGenrator;
-import org.crossroad.sap.tools.xbp.core.service.xbp.XBPException;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobCreator;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPOperations;
 import org.crossroad.sap.tools.xbp.core.service.xmi.XMIService;
@@ -34,7 +33,7 @@ public class JobProcessor {
 	@Qualifier(value = "xbt.mapper")
 	ObjectMapper mapper;
 
-	public int process(JobOptions options) throws XBPException {
+	public int process(JobOptions options)  {
 		XMIService xmiService = new XMIService();
 		JCoDestinationWrapper wrapper = null;
 		JobData data = null;
@@ -92,13 +91,13 @@ public class JobProcessor {
 				generator.generate(options.getJobFile());
 				break;
 			default:
-				throw new XBPException(String.format("Operation unknown '%s'", options.getOperation()));
+				throw new JCORuntimeException(String.format("Operation unknown '%s'", options.getOperation()), 0);
 			}
 
-		} catch (XBPException e) {
+		} catch (JCORuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new XBPException(e);
+			throw new JCORuntimeException(e, 0);
 		} finally {
 			if (xmiService.isConnected()) {
 				xmiService.logoff(wrapper.getDestination());

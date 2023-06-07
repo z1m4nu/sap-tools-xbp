@@ -1,16 +1,15 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.xbp.data.job.query;
+package org.crossroad.sap.tools.xbp.data.bapi;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author e.soden
  *
  */
-public class BAPIXMJSEL implements Serializable {
+public class BAPIXMJSEL extends AbstractBAPI {
 
 	/**
 	 * 

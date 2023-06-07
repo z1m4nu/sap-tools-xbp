@@ -21,6 +21,7 @@ import com.sap.conn.jco.JCoStructure;
  */
 public class JCoDestinationWrapper {
 	private static final Logger log = LoggerFactory.getLogger(JCoDestinationWrapper.class);
+	
 	private JCoDestination destination = null;
 	private String name = null;
 
@@ -47,7 +48,7 @@ public class JCoDestinationWrapper {
 		try {
 			this.destination = JCoDestinationManager.getDestination(name);
 		} catch (Exception e) {
-			throw new JCORuntimeException(e);
+			throw new JCORuntimeException(e, 0);
 		}
 	}
 
@@ -55,7 +56,7 @@ public class JCoDestinationWrapper {
 		try {
 			return this.destination.getRepository().getFunction(name);
 		} catch (Exception e) {
-			throw new JCORuntimeException(e);
+			throw new JCORuntimeException(e, 0);
 		}
 	}
 
@@ -77,12 +78,12 @@ public class JCoDestinationWrapper {
 
 			if ("E".equalsIgnoreCase(type)) {
 				throw new JCORuntimeException(String.format("[%s] - %s - %s", struct.getString("MESSAGE_V1"),
-						struct.getString("MESSAGE"), struct.getString("SYSTEM")));
+						struct.getString("MESSAGE"), struct.getString("SYSTEM")), struct.getInt("NUMBER"));
 			}
 		} catch (JCORuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new JCORuntimeException(e);
+			throw new JCORuntimeException(e, 0);
 		}
 		
 	}
