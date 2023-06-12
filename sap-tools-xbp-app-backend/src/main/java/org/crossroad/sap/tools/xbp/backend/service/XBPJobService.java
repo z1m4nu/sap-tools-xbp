@@ -10,6 +10,7 @@ import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobCreator;
 import org.crossroad.sap.tools.xbp.core.service.xmi.XMIService;
 import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +19,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class XBPJobService {
-
+	@Autowired
+	XBPJobCreator creator;
 	/**
 	 * 
 	 * @param destination
@@ -34,8 +36,7 @@ public class XBPJobService {
 
 			xmiService.login(wrapper.getDestination());
 
-			XBPJobCreator creator = new XBPJobCreator(wrapper);
-			String count = creator.create(data.getJob());
+			String count = creator.create(wrapper, data.getJob());
 			data.getJob().setJobCount(count);
 
 			data.getSteps().sort(new Comparator<JobStep>() {
@@ -46,7 +47,7 @@ public class XBPJobService {
 			});
 
 			for (JobStep step : data.getSteps()) {
-				step.setStepCount(creator.addStep(data.getJob(), step));
+				step.setStepCount(creator.addStep(wrapper, data.getJob(), step));
 			}
 
 			

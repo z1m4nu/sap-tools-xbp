@@ -7,6 +7,7 @@ import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobExecution;
+import org.springframework.stereotype.Component;
 
 import com.sap.conn.jco.JCoFunction;
 
@@ -14,6 +15,7 @@ import com.sap.conn.jco.JCoFunction;
  * @author e.soden
  *
  */
+@Component
 public class XBPOperations {
 	/**
 	 * 
@@ -22,7 +24,7 @@ public class XBPOperations {
 	 * @return
 	 * @throws XBPException
 	 */
-	public static int execute(JCoDestinationWrapper wrapper, Job job, JobExecution exec) {
+	public int executeImmediatly(JCoDestinationWrapper wrapper, Job job, JobExecution exec) {
 
 		int status = 0;
 		try {
@@ -47,7 +49,7 @@ public class XBPOperations {
 	 * @return
 	 * @throws XBPException
 	 */
-	public static String getJobStatus(JCoDestinationWrapper wrapper, Job job)  {
+	public String getJobStatus(JCoDestinationWrapper wrapper, Job job)  {
 		try {
 			JCoFunction function = wrapper.getFunction("BAPI_XBP_JOB_STATUS_GET");
 			function.getImportParameterList().setValue("JOBNAME", job.getName());
@@ -61,6 +63,6 @@ public class XBPOperations {
 		} catch (Exception e) {
 			throw new JCORuntimeException(e, 0);
 		}
-		
 	}
+
 }

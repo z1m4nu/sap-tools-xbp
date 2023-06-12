@@ -5,23 +5,20 @@ import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.sap.conn.jco.JCoFunction;
-
+@Component
 public class XBPJobCreator {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
-	private final JCoDestinationWrapper wrapper;
-
-	public XBPJobCreator(JCoDestinationWrapper wrapper) {
-		this.wrapper = wrapper;
-	}
+	
 
 	/**
 	 * 
 	 * @param job
 	 * @return
 	 */
-	public String create(Job job) {
+	public String create(JCoDestinationWrapper wrapper, Job job) {
 
 		JCoFunction jobFunction = wrapper.getFunction("BAPI_XBP_JOB_OPEN");
 		jobFunction.getImportParameterList().setValue("JOBNAME", job.getName());
@@ -32,7 +29,14 @@ public class XBPJobCreator {
 
 	}
 
-	public Integer addStep(Job job, JobStep step) {
+	/**
+	 * 
+	 * @param wrapper
+	 * @param job
+	 * @param step
+	 * @return
+	 */
+	public Integer addStep(JCoDestinationWrapper wrapper, Job job, JobStep step) {
 
 		JCoFunction stepFunction = wrapper.getFunction("BAPI_XBP_JOB_ADD_ABAP_STEP");
 		stepFunction.getImportParameterList().setValue("JOBNAME", job.getName());

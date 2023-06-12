@@ -5,9 +5,15 @@ import java.util.List;
 import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
 import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJOB;
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJOBLOG;
 import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJSEL;
-import org.crossroad.sap.tools.xbp.data.job.query.JobQuery;
-import org.crossroad.sap.tools.xbp.data.job.query.JobQueryResult;
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMRECIP;
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMSPOOLID;
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMSTEP;
+import org.crossroad.sap.tools.xbp.data.job.Job;
+import org.crossroad.sap.tools.xbp.data.job.JobDefinition;
+import org.crossroad.sap.tools.xbp.data.job.JobQuery;
+import org.crossroad.sap.tools.xbp.data.job.JobQueryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +24,18 @@ import org.springframework.util.StringUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sap.conn.jco.JCoFunction;
+import com.sap.conn.jco.JCoParameterList;
 import com.sap.conn.jco.JCoStructure;
 import com.sap.conn.jco.JCoTable;
 
 @Component
-public class XBPJobSelect {
+public class XBPJobQuery {
 	protected final Logger log = LoggerFactory.getLogger(getClass());
-	private JCoDestinationWrapper wrapper;
-
 	@Autowired
 	@Qualifier(value = "xbp.objectmapper")
 	ObjectMapper mapper;
 
-	public void setDestinationWrapper(JCoDestinationWrapper wrapper) {
-		this.wrapper = wrapper;
-	}
-
-	public JobQueryResult count(String jobName, boolean withJob) {
+	public JobQueryResult count(JCoDestinationWrapper wrapper, String jobName, boolean withJob) {
 
 		try {
 			JobQueryResult res = new JobQueryResult();
@@ -51,7 +52,7 @@ public class XBPJobSelect {
 
 				if (StringUtils.hasText(json)) {
 					json = json.toLowerCase();
-					res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOB>>() {
+					res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOBLOG>>() {
 					}));
 				}
 			}
@@ -69,7 +70,7 @@ public class XBPJobSelect {
 	 * @param job
 	 * @return
 	 */
-	public JobQueryResult foundJob(JobQuery query) {
+	public JobQueryResult foundJob(JCoDestinationWrapper wrapper, JobQuery query) {
 		try {
 			JCoFunction jobFunction = wrapper.getFunction("BAPI_XBP_JOB_SELECT");
 
@@ -160,7 +161,7 @@ public class XBPJobSelect {
 
 			if (StringUtils.hasText(json)) {
 				json = json.toLowerCase();
-				res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOB>>() {
+				res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOBLOG>>() {
 				}));
 			}
 
@@ -173,6 +174,57 @@ public class XBPJobSelect {
 			throw new JCORuntimeException(e, 0);
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param wrapper
+	 * @param job
+	 * @return
+	 */
+	public JobDefinition getJobDefinition(JCoDestinationWrapper wrapper, Job job) {
+		try {
+			JCoFunction function = wrapper.getFunction("BAPI_XBP_JOB_DEFINITION_GET");
+			function.getImportParameterList().setValue("JOBNAME", job.getName());
+			function.getImportParameterList().setValue("JOBCOUNT", job.getJobCount());
+
+			wrapper.execute(function);
+
+			JCoParameterList p = function.getExportParameterList();
+
+			JobDefinition definition = new JobDefinition();
+
+			String data = p.getStructure("JOB_HEAD").toJSON();
+			if (StringUtils.hasText(data)) {
+				definition.setJob(mapper.readValue(data, BAPIXMJOB.class));
+			}
+
+			data = p.getStructure("JOBLG_ATTR").toJSON();
+			if (StringUtils.hasText(data)) {
+				definition.setJobLogAttr(mapper.readValue(data, BAPIXMJOBLOG.class));
+			}
+
+			data = p.getStructure("RECIPIENT").toJSON();
+			if (StringUtils.hasText(data)) {
+				definition.setRecipient(mapper.readValue(data, BAPIXMRECIP.class));
+			}
+
+			data = function.getTableParameterList().getTable("STEP_TBL").toJSON();
+			if (StringUtils.hasText(data)) {
+				definition.getSteps().addAll(mapper.readValue(data, new TypeReference<List<BAPIXMSTEP>>() {
+				}));
+			}
+			data = function.getTableParameterList().getTable("SPOOL_ATTR").toJSON();
+			if (StringUtils.hasText(data)) {
+				definition.getSpools().addAll(mapper.readValue(data, new TypeReference<List<BAPIXMSPOOLID>>() {
+				}));
+			}
+			return definition;
+		} catch (JCORuntimeException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new JCORuntimeException(e, 0);
+		}
 	}
 
 }

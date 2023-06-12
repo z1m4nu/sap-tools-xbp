@@ -65,7 +65,7 @@ public class JobProcessor {
 					step.setStepCount(creator.addStep(data.getJob(), step));
 				}
 
-				XBPOperations.execute(wrapper, data.getJob(), data.getExecution());
+				XBPOperations.executeImmediatly(wrapper, data.getJob(), data.getExecution());
 
 				Long waitTime = TimeUtils.parseTime(options.getWaitTime());
 

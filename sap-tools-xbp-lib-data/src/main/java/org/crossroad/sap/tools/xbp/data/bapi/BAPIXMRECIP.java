@@ -4,21 +4,18 @@
 package org.crossroad.sap.tools.xbp.data.bapi;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author e.soden
  *
  */
 @Data
-public class BAPIXMJOB extends AbstractBAPI {
+public class BAPIXMRECIP extends AbstractBAPI {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 
 	private String JOBNAME;
 	private String JOBCOUNT;
@@ -55,4 +52,6 @@ public class BAPIXMJOB extends AbstractBAPI {
 	private String CALENDARID;
 	private String EXECSERVER;
 	private String REAXSERVER;
+
+
 }
