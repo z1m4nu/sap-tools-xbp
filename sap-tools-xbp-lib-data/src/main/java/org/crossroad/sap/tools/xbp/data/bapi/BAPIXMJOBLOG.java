@@ -3,6 +3,8 @@
  */
 package org.crossroad.sap.tools.xbp.data.bapi;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 /**
@@ -16,42 +18,16 @@ public class BAPIXMJOBLOG extends AbstractBAPI {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@JsonProperty("TMSNAME")
+	private String tmsName;
+	@JsonProperty("TMSCLIENT")
+	private String tmsClient;
+	@JsonProperty("CHARCO")
+	private Integer charco;
+	@JsonProperty("LANGU")
+	private String langu;
+	@JsonProperty("TMSSIZE")
+	private Integer tmsSize;
 
-	private String TMSNAME;
-	private String TMSCLIENT;
-	private Integer CHARCO;
-	private String LANGU;
-	private Integer TMSSIZE;
-	public String getTMSNAME() {
-		return TMSNAME;
-	}
-	public void setTMSNAME(String tMSNAME) {
-		TMSNAME = tMSNAME;
-	}
-	public String getTMSCLIENT() {
-		return TMSCLIENT;
-	}
-	public void setTMSCLIENT(String tMSCLIENT) {
-		TMSCLIENT = tMSCLIENT;
-	}
-	public Integer getCHARCO() {
-		return CHARCO;
-	}
-	public void setCHARCO(Integer cHARCO) {
-		CHARCO = cHARCO;
-	}
-	public String getLANGU() {
-		return LANGU;
-	}
-	public void setLANGU(String lANGU) {
-		LANGU = lANGU;
-	}
-	public Integer getTMSSIZE() {
-		return TMSSIZE;
-	}
-	public void setTMSSIZE(Integer tMSSIZE) {
-		TMSSIZE = tMSSIZE;
-	}
-	
-	
+
 }

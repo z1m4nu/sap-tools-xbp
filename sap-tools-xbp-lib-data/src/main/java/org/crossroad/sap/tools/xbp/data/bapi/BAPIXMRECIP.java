@@ -3,6 +3,8 @@
  */
 package org.crossroad.sap.tools.xbp.data.bapi;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 /**
@@ -17,41 +19,24 @@ public class BAPIXMRECIP extends AbstractBAPI {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String JOBNAME;
-	private String JOBCOUNT;
-	private Integer STEPCOUNT;
-	private String SDLSTRTDT;
-	private String SDLSTRTTM;
-	private String BTCSYSTEM;
-	private String SDLDATE;
-	private String SDLTIME;
-	private String SDLUNAME;
-	private String LASTCHDATE;
-	private String LASTCHTIME;
-	private String LASTCHNAME;
-	private String RELDATE;
-	private String RELTIME;
-	private String RELUNAME;
-	private String STRTDATE;
-	private String STRTTIME;
-	private String ENDDATE;
-	private String ENDTIME;
-	private char PERIODIC;
-	private char STATUS;
-	private String AUTHCKNAM;
-	private String AUTHCKMAN;
-	private Integer SUCCNUM;
-	private Integer PREDNUM;
-	private String LASTSTRTDT;
-	private String LASTSTRTTM;
-	private Integer WPNUMBER;
-	private Integer WPPROCID;
-	private String EVENTID;
-	private String EVENTPARM;
-	private String JOBCLASS;
-	private String CALENDARID;
-	private String EXECSERVER;
-	private String REAXSERVER;
+	@JsonProperty("RECIPIENT")
+	private String recipient;
+	@JsonProperty("REC_TYPE")
+	private char recType;
+	@JsonProperty("COPY")
+	private char copy;
+	@JsonProperty("BLIND_COPY")
+	private char blindCopy;
+	@JsonProperty("EXPRESS")
+	private char express;
+	@JsonProperty("NO_FORWARDING")
+	private char noForwarding;
+	@JsonProperty("DELIVER")
+	private char deliver;
+	@JsonProperty("NO_PRINT")
+	private char noPrint;
+	@JsonProperty("MAILSTATUS")
+	private char mailstatus;
 
 
 }

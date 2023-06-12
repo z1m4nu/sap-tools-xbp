@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy.PropertyNamingStrategyBase;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -22,10 +24,12 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class XBPConfiguration {
 	private static final Logger log = LoggerFactory.getLogger(XBPConfiguration.class);
+
 	@Bean(name = "xbp.objectmapper")
-	public ObjectMapper createMapper(@Value(value = "#{new Boolean('${xbp.mapper.fail-unknown-properties:true}')}") Boolean failUnknown) {
+	public ObjectMapper createMapper(
+			@Value(value = "#{new Boolean('${xbp.mapper.fail-unknown-properties:true}')}") Boolean failUnknown) {
 		log.debug("Create xbp.objectmapper...");
-		
+
 		var mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -35,6 +39,7 @@ public class XBPConfiguration {
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, failUnknown);
 		mapper.registerModule(new JavaTimeModule());
 		
+
 		return mapper;
 	}
 

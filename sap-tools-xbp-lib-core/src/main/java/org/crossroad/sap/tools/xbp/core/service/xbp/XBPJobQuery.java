@@ -51,8 +51,8 @@ public class XBPJobQuery {
 				String json = head.toJSON();
 
 				if (StringUtils.hasText(json)) {
-					json = json.toLowerCase();
-					res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOBLOG>>() {
+					//json = json.toLowerCase();
+					res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOB>>() {
 					}));
 				}
 			}
@@ -160,8 +160,9 @@ public class XBPJobQuery {
 			String json = head.toJSON();
 
 			if (StringUtils.hasText(json)) {
-				json = json.toLowerCase();
-				res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOBLOG>>() {
+				//json = json.toLowerCase();
+				log.debug("[JSON]\n{}\n", json);
+				res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOB>>() {
 				}));
 			}
 
