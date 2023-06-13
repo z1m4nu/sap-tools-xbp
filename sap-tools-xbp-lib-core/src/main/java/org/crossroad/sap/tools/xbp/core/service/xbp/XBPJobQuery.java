@@ -74,65 +74,11 @@ public class XBPJobQuery {
 		try {
 			JCoFunction jobFunction = wrapper.getFunction("BAPI_XBP_JOB_SELECT");
 
-			if (query.getJobParam() != null) {
-				BAPIXMJSEL jobSel = query.getJobParam();
+			if (query.getParameters() != null) {
+				BAPIXMJSEL jobSel = query.getParameters();
 
 				JCoStructure btcSelect = jobFunction.getImportParameterList().getStructure(("JOB_SELECT_PARAM"));
-				btcSelect.setValue("JOBNAME", (StringUtils.hasText(jobSel.getJobName()) ? jobSel.getJobName() : "*"));
-
-				if (StringUtils.hasText(jobSel.getUsername())) {
-					btcSelect.setValue("USERNAME", jobSel.getUsername());
-				}
-
-				if (jobSel.getFromDate() != null) {
-					btcSelect.setValue("FROM_DATE", jobSel.getFromDate());
-				}
-
-				if (jobSel.getToDate() != null) {
-					btcSelect.setValue("TO_DATE", jobSel.getToDate());
-				}
-				if (StringUtils.hasText(jobSel.getFromTime())) {
-					btcSelect.setValue("FROM_TIME", jobSel.getFromTime());
-				}
-
-				if (StringUtils.hasText(jobSel.getToTime())) {
-					btcSelect.setValue("TO_TIME", jobSel.getToTime());
-				}
-
-				if (StringUtils.hasText(jobSel.getJobCount())) {
-					btcSelect.setValue("JOBCOUNT", jobSel.getJobCount());
-				}
-
-				if (StringUtils.hasText(jobSel.getJobGroup())) {
-					btcSelect.setValue("JOBGROUP", jobSel.getJobGroup());
-				}
-
-				if (StringUtils.hasText(jobSel.getEventId())) {
-					btcSelect.setValue("EVENTID", jobSel.getEventId());
-				}
-
-				if (StringUtils.hasText(jobSel.getEventParm())) {
-					btcSelect.setValue("EVENTPARM", jobSel.getEventParm());
-				}
-
-				if (jobSel.isPrelim()) {
-					btcSelect.setValue("PRELIM", 'X');
-				}
-				if (jobSel.isSchedul()) {
-					btcSelect.setValue("SCHEDUL", 'X');
-				}
-				if (jobSel.isRunning()) {
-					btcSelect.setValue("RUNNING", 'X');
-				}
-				if (jobSel.isReady()) {
-					btcSelect.setValue("READY", 'X');
-				}
-				if (jobSel.isFinished()) {
-					btcSelect.setValue("FINISHED", 'X');
-				}
-				if (jobSel.isAborted()) {
-					btcSelect.setValue("ABORTED", 'X');
-				}
+				btcSelect.fromJSON(mapper.writeValueAsString(jobSel));
 			}
 
 			if (query.isSusp()) {

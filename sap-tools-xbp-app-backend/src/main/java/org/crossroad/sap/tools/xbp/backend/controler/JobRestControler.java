@@ -46,7 +46,7 @@ public class JobRestControler {
 			return xbpQuery.search(dest, container);
 		} catch (JCORuntimeException e) {
 			if (e.getErrId() == 57) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Job query '%s' not found", container.getJobParam().getJobName()), e);
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Job query '%s' not found", container.getParameters().getJobName()), e);
 			}
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while processing", e);
 		} catch (Exception e) {
