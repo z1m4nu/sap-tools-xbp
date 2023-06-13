@@ -6,8 +6,6 @@ package org.crossroad.sap.tools.xbp.data.bapi;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author e.soden
