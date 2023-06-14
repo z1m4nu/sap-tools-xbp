@@ -2,8 +2,9 @@ package org.crossroad.sap.tools.xbp.core.service.xbp;
 
 import java.util.List;
 
-import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
-import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
+import org.crossroad.sap.tools.jco.service.JCORuntimeException;
+import org.crossroad.sap.tools.jco.service.JCoDestinationWrapper;
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIRET2;
 import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJOB;
 import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJOBLOG;
 import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMJSEL;
@@ -13,7 +14,7 @@ import org.crossroad.sap.tools.xbp.data.bapi.BAPIXMSTEP;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobDefinition;
 import org.crossroad.sap.tools.xbp.data.job.JobQuery;
-import org.crossroad.sap.tools.xbp.data.job.JobQueryResult;
+import org.crossroad.sap.tools.xbp.data.result.JobQueryResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,8 @@ public class XBPJobQuery {
 			jobFunction.getImportParameterList().setValue("JOBNAME", (StringUtils.hasText(jobName) ? jobName : "*"));
 			jobFunction.getImportParameterList().setValue("DONT_LIST_JOBS", (withJob ? 'X' : ' '));
 
-			wrapper.execute(jobFunction);
+			BAPIRET2 bapiRet2 = wrapper.execute(jobFunction);
+			res.setBapiret2(bapiRet2);
 			res.setCount(jobFunction.getExportParameterList().getInt("NUMBER_OF_JOBS"));
 			if (withJob) {
 				JCoTable head = jobFunction.getTableParameterList().getTable("JOB_TABLE");
@@ -60,7 +62,7 @@ public class XBPJobQuery {
 		} catch (JCORuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new JCORuntimeException(e, 0);
+			throw new JCORuntimeException(e);
 		}
 
 	}
@@ -97,11 +99,12 @@ public class XBPJobQuery {
 
 			log.debug("Parameters: {}", jobFunction.getImportParameterList().toXML());
 
-			wrapper.execute(jobFunction);
+			BAPIRET2 bapiRet2 = wrapper.execute(jobFunction);
 
 			JCoTable head = jobFunction.getTableParameterList().getTable("JOB_HEAD");
 
 			JobQueryResult res = new JobQueryResult();
+			res.setBapiret2(bapiRet2);
 
 			String json = head.toJSON();
 
@@ -110,6 +113,8 @@ public class XBPJobQuery {
 				log.debug("[JSON]\n{}\n", json);
 				res.getContent().addAll(mapper.readValue(json, new TypeReference<List<BAPIXMJOB>>() {
 				}));
+				
+				
 			}
 
 			res.setCount(res.getContent().size());
@@ -118,7 +123,7 @@ public class XBPJobQuery {
 		} catch (JCORuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new JCORuntimeException(e, 0);
+			throw new JCORuntimeException(e);
 		}
 
 	}
@@ -170,7 +175,7 @@ public class XBPJobQuery {
 		} catch (JCORuntimeException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new JCORuntimeException(e, 0);
+			throw new JCORuntimeException(e);
 		}
 	}
 

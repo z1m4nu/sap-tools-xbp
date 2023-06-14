@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.xbp.core.service;
+package org.crossroad.sap.tools.jco.service;
 
 /**
  * @author e.soden
@@ -9,7 +9,6 @@ package org.crossroad.sap.tools.xbp.core.service;
  */
 public class JCORuntimeException extends RuntimeException {
 
-	private final int errId;
 	/**
 	 * 
 	 */
@@ -18,33 +17,32 @@ public class JCORuntimeException extends RuntimeException {
 	/**
 	 * 
 	 */
-	public JCORuntimeException(int id) {
-		this.errId = id;
+	public JCORuntimeException() {
 	}
 
 	/**
 	 * @param message
 	 */
-	public JCORuntimeException(String message, int id) {
+	public JCORuntimeException(String message) {
 		super(message);
-		this.errId = id;
+		
 	}
 
 	/**
 	 * @param cause
 	 */
-	public JCORuntimeException(Throwable cause, int id) {
+	public JCORuntimeException(Throwable cause) {
 		super(cause);
-		this.errId = id;
+		
 	}
 
 	/**
 	 * @param message
 	 * @param cause
 	 */
-	public JCORuntimeException(String message, Throwable cause, int id) {
+	public JCORuntimeException(String message, Throwable cause) {
 		super(message, cause);
-		this.errId = id;
+		
 	}
 
 	/**
@@ -53,13 +51,10 @@ public class JCORuntimeException extends RuntimeException {
 	 * @param enableSuppression
 	 * @param writableStackTrace
 	 */
-	public JCORuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, int id) {
+	public JCORuntimeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
-		this.errId = id;
+		
 	}
 	
-	public int getErrId() {
-		return errId;
-	}
 
 }

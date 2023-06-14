@@ -3,8 +3,8 @@ package org.crossroad.sap.tools.xbp.console;
 import java.io.File;
 import java.util.Comparator;
 
-import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
-import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
+import org.crossroad.sap.tools.jco.service.JCORuntimeException;
+import org.crossroad.sap.tools.jco.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPConfigGenrator;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobCreator;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPOperations;

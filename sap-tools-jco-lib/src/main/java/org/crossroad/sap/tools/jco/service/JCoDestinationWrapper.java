@@ -1,12 +1,16 @@
 /**
  * 
  */
-package org.crossroad.sap.tools.xbp.core.service;
+package org.crossroad.sap.tools.jco.service;
 
+import org.crossroad.sap.tools.xbp.data.bapi.BAPIRET2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.lang.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sap.conn.jco.JCoDestination;
 import com.sap.conn.jco.JCoDestinationManager;
 import com.sap.conn.jco.JCoException;
@@ -19,15 +23,17 @@ import com.sap.conn.jco.JCoStructure;
  * @author e.soden
  *
  */
+@Component
 public class JCoDestinationWrapper {
 	private static final Logger log = LoggerFactory.getLogger(JCoDestinationWrapper.class);
 	
-	private JCoDestination destination = null;
-	private String name = null;
+	@Autowired
+	@Qualifier(value = "xbp.objectmapper")
+	ObjectMapper mapper;
 
-	public JCoDestinationWrapper(@NonNull String name) {
-		this.name = name;
-	}
+	private JCoDestination destination = null;
+
+	
 
 	protected String getUserName()
 	{
@@ -44,11 +50,19 @@ public class JCoDestinationWrapper {
 	 * @param destination the destination to set
 	 * @throws JCoException
 	 */
-	public void create() throws JCoRuntimeException {
+	public void connect(String name) throws JCoRuntimeException {
 		try {
 			this.destination = JCoDestinationManager.getDestination(name);
 		} catch (Exception e) {
-			throw new JCORuntimeException(e, 0);
+			throw new JCORuntimeException(e);
+		}
+	}
+	
+	public void disconnect() throws JCoRuntimeException {
+		try {
+			this.destination = null;
+		} catch (Exception e) {
+			throw new JCORuntimeException(e);
 		}
 	}
 
@@ -56,7 +70,7 @@ public class JCoDestinationWrapper {
 		try {
 			return this.destination.getRepository().getFunction(name);
 		} catch (Exception e) {
-			throw new JCORuntimeException(e, 0);
+			throw new JCORuntimeException(e);
 		}
 	}
 
@@ -66,24 +80,20 @@ public class JCoDestinationWrapper {
 	 * @return
 	 * @throws JCORuntimeException
 	 */
-	public void execute(JCoFunction function) throws JCORuntimeException {
+	public BAPIRET2 execute(JCoFunction function) throws JCORuntimeException {
 		JCoParameterList data = null;
 		try {
 			function.getImportParameterList().setValue("EXTERNAL_USER_NAME", getUserName());
 			
 			function.execute(this.destination);
 			data = function.getExportParameterList();
-			JCoStructure struct = data.getStructure("RETURN");
-			String type = struct.getString("TYPE");
-
-			if ("E".equalsIgnoreCase(type)) {
-				throw new JCORuntimeException(String.format("[%s] - %s - %s", struct.getString("MESSAGE_V1"),
-						struct.getString("MESSAGE"), struct.getString("SYSTEM")), struct.getInt("NUMBER"));
-			}
-		} catch (JCORuntimeException e) {
-			throw e;
+			JCoStructure bapiRet2Jco = data.getStructure("RETURN");
+			BAPIRET2 bapiRet2 = mapper.readValue(bapiRet2Jco.toJSON(), BAPIRET2.class);
+	
+			return bapiRet2;
 		} catch (Exception e) {
-			throw new JCORuntimeException(e, 0);
+			log.error(String.format("Error while processing '%s' on '%s'", function.getName(), destination.getDestinationName()), e);
+			throw new JCORuntimeException(e);
 		}
 		
 	}

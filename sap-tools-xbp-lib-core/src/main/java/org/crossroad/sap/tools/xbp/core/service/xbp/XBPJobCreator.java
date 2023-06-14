@@ -1,6 +1,6 @@
 package org.crossroad.sap.tools.xbp.core.service.xbp;
 
-import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
+import org.crossroad.sap.tools.jco.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
 import org.slf4j.Logger;

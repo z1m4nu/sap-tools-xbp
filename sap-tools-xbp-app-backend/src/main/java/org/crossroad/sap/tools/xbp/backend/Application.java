@@ -1,5 +1,6 @@
 package org.crossroad.sap.tools.xbp.backend;
 
+import org.crossroad.sap.tools.jco.JCOCore;
 import org.crossroad.sap.tools.xbp.core.XBPCore;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

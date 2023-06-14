@@ -3,15 +3,18 @@
  */
 package org.crossroad.sap.tools.xbp.backend.service;
 
-import org.crossroad.sap.tools.xbp.core.service.JCoDestinationWrapper;
+import org.crossroad.sap.tools.jco.service.JCoDestinationWrapper;
 import org.crossroad.sap.tools.xbp.core.service.xbp.XBPJobQuery;
 import org.crossroad.sap.tools.xbp.core.service.xmi.XMIService;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobDefinition;
 import org.crossroad.sap.tools.xbp.data.job.JobQuery;
-import org.crossroad.sap.tools.xbp.data.job.JobQueryResult;
+import org.crossroad.sap.tools.xbp.data.result.JobQueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author e.soden
@@ -21,14 +24,16 @@ import org.springframework.stereotype.Component;
 public class XBPJobQueryService {
 	@Autowired
 	XBPJobQuery selector;
+	
+	@Autowired
+	JCoDestinationWrapper wrapper;
+
 
 	public JobQueryResult search(String destination, JobQuery data) {
-		JCoDestinationWrapper wrapper = null;
 		XMIService xmiService = new XMIService();
 
 		try {
-			wrapper = new JCoDestinationWrapper(destination);
-			wrapper.create();
+			wrapper.connect(destination);
 
 			xmiService.login(wrapper.getDestination());
 
@@ -38,16 +43,16 @@ public class XBPJobQueryService {
 			if (xmiService.isConnected()) {
 				xmiService.logoff(wrapper.getDestination());
 			}
+			
+			wrapper.disconnect();
 		}
 	}
 
 	public JobQueryResult count(String destination, String job, boolean withJobs) {
-		JCoDestinationWrapper wrapper = null;
 		XMIService xmiService = new XMIService();
 
 		try {
-			wrapper = new JCoDestinationWrapper(destination);
-			wrapper.create();
+			wrapper.connect(destination);
 
 			xmiService.login(wrapper.getDestination());
 
@@ -57,17 +62,15 @@ public class XBPJobQueryService {
 			if (xmiService.isConnected()) {
 				xmiService.logoff(wrapper.getDestination());
 			}
+			wrapper.disconnect();
 		}
 	}
 	
 	public JobDefinition getDefinition(String destination, Job job) {
-		JCoDestinationWrapper wrapper = null;
 		XMIService xmiService = new XMIService();
 
 		try {
-			wrapper = new JCoDestinationWrapper(destination);
-			wrapper.create();
-
+			wrapper.connect(destination);
 			xmiService.login(wrapper.getDestination());
 
 			return selector.getJobDefinition(wrapper, job);
@@ -76,6 +79,7 @@ public class XBPJobQueryService {
 			if (xmiService.isConnected()) {
 				xmiService.logoff(wrapper.getDestination());
 			}
+			wrapper.disconnect();
 		}
 	}
 }

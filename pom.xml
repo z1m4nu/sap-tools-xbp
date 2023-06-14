@@ -23,5 +23,6 @@
 		<module>sap-tools-xbp-app-backend</module>
 		<module>sap-tools-xbp-lib-data</module>
 		<module>sap-tools-xbp-app-ui</module>
+		<module>sap-tools-jco-lib</module>
 	</modules>
 </project>

@@ -25,13 +25,13 @@ public class BAPIRET2 extends AbstractBAPI {
 	@JsonProperty("ID")
 	private String id;
 	@JsonProperty("NUMBER")
-	private Integer number;
+	private String number;
 	@JsonProperty("MESSAGE")
 	private String message;
 	@JsonProperty("LOG_NO")
 	private String logNo;
 	@JsonProperty("LOG_MSG_NO")
-	private Integer LogMsgNo;
+	private String LogMsgNo;
 	@JsonProperty("MESSAGE_V1")
 	private String messageV1;
 	@JsonProperty("MESSAGE_V2")
@@ -43,7 +43,7 @@ public class BAPIRET2 extends AbstractBAPI {
 	@JsonProperty("PARAMETER")
 	private String parameter;
 	@JsonProperty("ROW")
-	private String row;
+	private Integer row;
 	@JsonProperty("FIELD")
 	private String field;
 	@JsonProperty("SYSTEM")

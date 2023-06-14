@@ -7,7 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.crossroad.sap.tools.xbp.core.service.JCORuntimeException;
+import org.crossroad.sap.tools.jco.service.JCORuntimeException;
 import org.crossroad.sap.tools.xbp.data.job.Job;
 import org.crossroad.sap.tools.xbp.data.job.JobData;
 import org.crossroad.sap.tools.xbp.data.job.JobStep;
@@ -65,7 +65,7 @@ public class XBPConfigGenrator {
 
 			log.info("Template generated in '{}'", file.toAbsolutePath());
 		} catch (Exception e) {
-			throw new JCORuntimeException(e,0);
+			throw new JCORuntimeException(e);
 		}
 	}
 
