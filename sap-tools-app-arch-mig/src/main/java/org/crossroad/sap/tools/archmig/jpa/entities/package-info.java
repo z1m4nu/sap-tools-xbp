@@ -1,0 +1,1 @@
+package org.crossroad.sap.tools.archmig.jpa.entities;

@@ -24,5 +24,6 @@
 		<module>sap-tools-xbp-lib-data</module>
 		<module>sap-tools-xbp-app-ui</module>
 		<module>sap-tools-jco-lib</module>
+		<module>sap-tools-app-arch-mig</module>
 	</modules>
 </project>
