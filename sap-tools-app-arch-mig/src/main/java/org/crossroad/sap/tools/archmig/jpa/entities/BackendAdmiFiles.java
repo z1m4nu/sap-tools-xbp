@@ -80,4 +80,8 @@ public class BackendAdmiFiles {
 	
 	@Column(name = "status")
 	private int status;
+	
+	@Column(name = "client")
+	private String client;
+	
 }

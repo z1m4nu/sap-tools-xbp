@@ -1,14 +1,13 @@
 package org.crossroad.sap.tools.archmig.config;
 
-import java.util.HashMap;
-
 import javax.sql.DataSource;
 
+import org.crossroad.sap.tools.jco.service.JCoDestinationWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,14 +15,17 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.StringUtils;
 
 @Configuration
-public class SAPServerJPAConfig {
+public class SAPBackendConfig {
 
-	private Logger log = LoggerFactory.getLogger(SAPServerJPAConfig.class);
+	@Autowired
+	JCoDestinationWrapper wrapper;
+	
+	private Logger log = LoggerFactory.getLogger(SAPBackendConfig.class);
 
 	@Bean(name = "archmig.sap.db.ds")
-	public DataSource plmExchangeBackendDS(@Value("${archmig.sap.jdbc.driver-class}") String driver,
-			@Value("${archmig.sap.jdbc.url}") String url, @Value("${archmig.sap.jdbc.username:}") String username,
-			@Value("${archmig.sap.jdbc.password:}") String password) {
+	public DataSource plmExchangeBackendDS(@Value("${batch.sap.jdbc.driver-class}") String driver,
+			@Value("${batch.sap.jdbc.url}") String url, @Value("${batch.sap.jdbc.username:}") String username,
+			@Value("${batch.sap.jdbc.password:}") String password) {
 		log.debug("Creating archmig.sap.db.ds...");
 
 		final var managerDataSource = new DriverManagerDataSource();
@@ -48,6 +50,13 @@ public class SAPServerJPAConfig {
 	@Bean(name = "archmig.sap.db.jdbc.template")
 	public NamedParameterJdbcTemplate createExchangeTemplate(@Qualifier(value = "archmig.sap.db.ds") DataSource ds) {
 		return new NamedParameterJdbcTemplate(ds);
+	}
+	
+	@Bean(name = "archmig.sap.jco")
+	public JCoDestinationWrapper createJcoWrapper(@Value("${batch.sap.jco}") String destination) {
+		wrapper.connect(destination);
+		
+		return wrapper;
 	}
 
 }

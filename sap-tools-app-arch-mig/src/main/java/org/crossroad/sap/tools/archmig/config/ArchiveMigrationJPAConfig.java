@@ -30,11 +30,11 @@ public class ArchiveMigrationJPAConfig {
 
 	private Logger log = LoggerFactory.getLogger(ArchiveMigrationJPAConfig.class);
 
-	@Bean(name = "archmig.backend.db.ds")
-	public DataSource plmExchangeBackendDS(@Value("${archmig.backend.jdbc.driver-class}") String driver,
-			@Value("${archmig.backend.jdbc.url}") String url, @Value("${archmig.backend.jdbc.username:}") String username,
-			@Value("${archmig.backend.jdbc.password:}") String password) {
-		log.debug("Creating archmig.backend.db.ds...");
+	@Bean(name = "archmig.backend.ds")
+	public DataSource batchds(@Value("${batch.jdbc.driver-class}") String driver,
+			@Value("${batch.jdbc.url}") String url, @Value("${batch.jdbc.username:}") String username,
+			@Value("${batch.jdbc.password:}") String password) {
+		log.debug("Creating batch.ds...");
 
 		final var managerDataSource = new DriverManagerDataSource();
 		managerDataSource.setDriverClassName(driver);
@@ -54,18 +54,22 @@ public class ArchiveMigrationJPAConfig {
 
 		return managerDataSource;
 	}
-
+	
+	
+	
 	@Bean(name = "archmig.backend.db.jdbc.template")
-	public NamedParameterJdbcTemplate createExchangeTemplate(@Qualifier(value = "archmig.backend.db.ds") DataSource ds) {
+	public NamedParameterJdbcTemplate createExchangeTemplate(@Qualifier(value = "archmig.backend.ds") DataSource ds) {
 		return new NamedParameterJdbcTemplate(ds);
 	}
 
+
+
 	@Bean(name = "archmig.backend.entitymanager")
 	public LocalContainerEntityManagerFactoryBean exchangeEntityManager(
-			@Qualifier(value = "archmig.backend.db.ds") DataSource ds,
-			@Value("${archmig.backend.jdbc.database-platform:}") String dialect,
-			@Value("${archmig.backend.jdbc.show-sql:false}") boolean showSql,
-			@Value("${archmig.backend.jdbc.fetch-size:2000}") int fetchSize) {
+			@Qualifier(value = "archmig.backend.ds") DataSource ds,
+			@Value("${batch.jdbc.database-platform:}") String dialect,
+			@Value("${batch.jdbc.show-sql:false}") boolean showSql,
+			@Value("${batch.jdbc.fetch-size:2000}") int fetchSize) {
 		log.debug("Load bean archmig.backend.entitymanager...");
 
 		final var em = new LocalContainerEntityManagerFactoryBean();

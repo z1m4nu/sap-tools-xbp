@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: archimig-job
+  cloud:
+    config:
+      enabled: false            
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    default-property-inclusion: non-null    
+    serialization:
+      INDENT_OUTPUT: true
+      WRITE_DATES_AS_TIMESTAMPS: true
+    deserialization:
+      ACCEPT_SINGLE_VALUE_AS_ARRAY: true
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+
+logging:
+  level:
+    org.crossroad.sap.tools.archmig: debug
+    org.crossroad.sap.tools.jco: debug
+    
+batch:
+  content-rep:
+    source: CF
+    destination: CG
+  jdbc:
+    driver-class: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/archmigdb
+    username: archmiguser
+    password: secret
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    fetch-size: 2000
+    scripts:
+      create: schema-create.sql
+      drop: schema-cleanup.sql
+  sap:
+    jco: Q01-SODEE
+    jdbc:
+      driver-class: com.sap.db.jdbc.Driver
+      url: jdbc:sap://bavsl033030.tally-weijl.ch:30015?currentSchema=SAPTWP
+      username: ZTW_RO
+      password: R34d0n1y
+      show-sql: true
+      database-platform: org.hibernate.dialect.HANAColumnStoreDialect
+      fetch-size: 2000
+      read-start: 0
+  thread-pool:
+    queue-capacity: 20
+    core: 20
+    max: 20
+    allow-timeout: true              
+      
