@@ -69,9 +69,15 @@ public class BackendAdmiFiles {
 	@Column(name = "crep")
 	private String crep;
 
-	@Column(name = "arch_docid")
-	private String archDocId;
+	@Column(name = "old_arch_docid")
+	private String oldArchDocId;
+
+	@Column(name = "new_arch_docid")
+	private String newArchDocId;
 
 	@Column(name = "deleting")
 	private String deleting;
+	
+	@Column(name = "status")
+	private int status;
 }
