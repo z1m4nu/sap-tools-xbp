@@ -27,6 +27,10 @@ public class BackendAdmiFiles {
 	@Id
 	@Column(name = "archiv_key")
 	private String archivKey;
+
+	@Id
+	@Column(name = "sid")
+	private String sid;
 	
 	@Id
 	@Column(name = "run_id")
