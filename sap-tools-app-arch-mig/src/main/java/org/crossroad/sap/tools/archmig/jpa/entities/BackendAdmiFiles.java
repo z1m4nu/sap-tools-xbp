@@ -15,7 +15,7 @@ import lombok.Setter;
  * @author e.soden
  *
  */
-@Entity(name = "admi_files_bck")
+@Entity(name = "migration_data")
 @IdClass(BackendAdmiFileKey.class)
 @Setter
 @Getter
@@ -36,17 +36,17 @@ public class BackendAdmiFiles {
 	@Column(name = "run_id")
 	private long runId;
 
-	@Column(name = "creat_date")
+	@Column(name = "creat_date", nullable = false)
 	private String creatDate;
 
 	@Column(name = "creat_time")
 	private String creatTime;
 
 	@Column(name = "obj_count")
-	private String objCount;
+	private Integer objCount;
 
 	@Column(name = "file_size")
-	private String fileSize;
+	private Double fileSize;
 
 	@Column(name = "filename")
 	private String filename;
@@ -66,8 +66,11 @@ public class BackendAdmiFiles {
 	@Column(name = "pathintern")
 	private String pathIntern;
 
-	@Column(name = "crep")
-	private String crep;
+	@Column(name = "old_crep")
+	private String oldCrep;
+
+	@Column(name = "new_crep")
+	private String newCrep;
 
 	@Column(name = "old_arch_docid")
 	private String oldArchDocId;

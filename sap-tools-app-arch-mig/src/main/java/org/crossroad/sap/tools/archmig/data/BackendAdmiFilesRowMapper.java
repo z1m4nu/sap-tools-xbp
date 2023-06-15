@@ -23,15 +23,15 @@ public class BackendAdmiFilesRowMapper implements RowMapper<BackendAdmiFiles>{
 		data.setArchivKey(rs.getString("ARCHIV_KEY"));
 		data.setCreatDate(rs.getString("CREAT_DATE"));
 		data.setCreatTime(rs.getString("CREAT_TIME"));
-		data.setObjCount(rs.getString("OBJ_COUNT"));
-		data.setFileSize(rs.getString("FILE_SIZE"));
+		data.setObjCount(rs.getInt("OBJ_COUNT"));
+		data.setFileSize(rs.getDouble("FILE_SIZE"));
 		data.setFilename(rs.getString("FILENAME"));
 		data.setStatusOpt(rs.getString("STATUS_OPT"));
 		data.setStatusFile(rs.getString("STATUS_FIL"));
 		data.setComments(rs.getString("COMMENTS"));
 		data.setStatusIdx(rs.getString("STATUS_IDX"));
 		data.setPathIntern(rs.getString("PATHINTERN"));
-		data.setCrep(rs.getString("CREP"));
+		data.setOldCrep(rs.getString("CREP"));
 		data.setOldArchDocId(rs.getString("ARCH_DOCID"));
 		data.setDeleting(rs.getString("DELETING"));
 		

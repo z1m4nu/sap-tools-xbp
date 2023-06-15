@@ -31,6 +31,8 @@ public class MigrationProcessor implements ItemProcessor<BackendAdmiFiles, Backe
 	@Autowired
 	MigrationLogRepository logRepository;
 	
+	
+	
 	@Override
 	public BackendAdmiFiles process(BackendAdmiFiles item) throws Exception {
 		
