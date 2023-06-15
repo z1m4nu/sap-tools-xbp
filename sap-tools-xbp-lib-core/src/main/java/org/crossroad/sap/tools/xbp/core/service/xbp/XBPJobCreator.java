@@ -24,7 +24,7 @@ public class XBPJobCreator {
 		jobFunction.getImportParameterList().setValue("JOBNAME", job.getName());
 		jobFunction.getImportParameterList().setValue("JOBCLASS", job.getJobClass());
 
-		wrapper.execute(jobFunction);
+		wrapper.executeBAPI(jobFunction);
 		return jobFunction.getExportParameterList().getField("JOBCOUNT").getString();
 
 	}
@@ -47,7 +47,7 @@ public class XBPJobCreator {
 		stepFunction.getImportParameterList().setValue("SAP_USER_NAME", step.getUser());
 		stepFunction.getImportParameterList().setValue("LANGUAGE", step.getLanguage());
 
-		wrapper.execute(stepFunction);
+		wrapper.executeBAPI(stepFunction);
 
 		return stepFunction.getExportParameterList().getField("STEP_NUMBER").getInt();
 

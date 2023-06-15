@@ -22,8 +22,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
  *
  */
 @Configuration
-public class XBPConfiguration {
-	private static final Logger log = LoggerFactory.getLogger(XBPConfiguration.class);
+public class JcoConfiguration {
+	private static final Logger log = LoggerFactory.getLogger(JcoConfiguration.class);
 
 	@Bean(name = "xbp.objectmapper")
 	public ObjectMapper createMapper(

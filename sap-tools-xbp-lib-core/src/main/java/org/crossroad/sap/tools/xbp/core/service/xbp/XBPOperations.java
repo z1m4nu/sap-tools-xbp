@@ -46,7 +46,7 @@ public class XBPOperations {
 			function.getImportParameterList().setValue("TARGET_SERVER",
 					exec.getTargetServer());
 
-			wrapper.execute(function);
+			wrapper.executeBAPI(function);
 		} catch (JCORuntimeException e) {
 			throw e;
 		} catch (Exception e) {
@@ -68,7 +68,7 @@ public class XBPOperations {
 			function.getImportParameterList().setValue("JOBCOUNT", job.getJobCount());
 
 			
-			wrapper.execute(function);
+			wrapper.executeBAPI(function);
 			JCoParameterList p = function.getExportParameterList();
 			JobStatusResult res = mapper.readValue(p.toJSON(), JobStatusResult.class);
 			return res;

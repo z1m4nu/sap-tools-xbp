@@ -45,7 +45,7 @@ public class XBPJobQuery {
 			jobFunction.getImportParameterList().setValue("JOBNAME", (StringUtils.hasText(jobName) ? jobName : "*"));
 			jobFunction.getImportParameterList().setValue("DONT_LIST_JOBS", (withJob ? 'X' : ' '));
 
-			BAPIRET2 bapiRet2 = wrapper.execute(jobFunction);
+			BAPIRET2 bapiRet2 = wrapper.executeBAPI(jobFunction);
 			res.setBapiret2(bapiRet2);
 			res.setCount(jobFunction.getExportParameterList().getInt("NUMBER_OF_JOBS"));
 			if (withJob) {
@@ -99,7 +99,7 @@ public class XBPJobQuery {
 
 			log.debug("Parameters: {}", jobFunction.getImportParameterList().toXML());
 
-			BAPIRET2 bapiRet2 = wrapper.execute(jobFunction);
+			BAPIRET2 bapiRet2 = wrapper.executeBAPI(jobFunction);
 
 			JCoTable head = jobFunction.getTableParameterList().getTable("JOB_HEAD");
 
@@ -140,7 +140,7 @@ public class XBPJobQuery {
 			function.getImportParameterList().setValue("JOBNAME", job.getName());
 			function.getImportParameterList().setValue("JOBCOUNT", job.getJobCount());
 
-			wrapper.execute(function);
+			wrapper.executeBAPI(function);
 
 			JCoParameterList p = function.getExportParameterList();
 
