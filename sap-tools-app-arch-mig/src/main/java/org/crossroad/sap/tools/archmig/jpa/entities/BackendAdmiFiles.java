@@ -8,7 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author e.soden
@@ -16,7 +17,8 @@ import lombok.Data;
  */
 @Entity(name = "admi_files_bck")
 @IdClass(BackendAdmiFileKey.class)
-@Data
+@Setter
+@Getter
 public class BackendAdmiFiles {
 	@Id
 	@Column(name = "document")
