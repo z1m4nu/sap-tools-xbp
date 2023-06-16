@@ -23,9 +23,9 @@ public class SAPBackendConfig {
 	private Logger log = LoggerFactory.getLogger(SAPBackendConfig.class);
 
 	@Bean(name = "archmig.sap.db.ds")
-	public DataSource plmExchangeBackendDS(@Value("${batch.sap.jdbc.driver-class}") String driver,
-			@Value("${batch.sap.jdbc.url}") String url, @Value("${batch.sap.jdbc.username:}") String username,
-			@Value("${batch.sap.jdbc.password:}") String password) {
+	public DataSource plmExchangeBackendDS(@Value("${migration.jdbc.driver-class}") String driver,
+			@Value("${migration.jdbc.url}") String url, @Value("${migration.jdbc.username:}") String username,
+			@Value("${migration.jdbc.password:}") String password) {
 		log.debug("Creating archmig.sap.db.ds...");
 
 		final var managerDataSource = new DriverManagerDataSource();
@@ -53,7 +53,7 @@ public class SAPBackendConfig {
 	}
 	
 	@Bean(name = "archmig.sap.jco")
-	public JCoDestinationWrapper createJcoWrapper(@Value("${batch.sap.jco}") String destination) {
+	public JCoDestinationWrapper createJcoWrapper(@Value("${migration.jco}") String destination) {
 		wrapper.connect(destination);
 		
 		return wrapper;

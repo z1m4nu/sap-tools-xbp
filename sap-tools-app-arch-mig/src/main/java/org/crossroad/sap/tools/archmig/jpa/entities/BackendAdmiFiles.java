@@ -81,9 +81,10 @@ public class BackendAdmiFiles {
 	@Column(name = "deleting")
 	private String deleting;
 	
-	@Column(name = "status")
-	private int status;
+	@Column(name = "status_op")
+	private String statusOp;
 	
+
 	@Column(name = "client")
 	private String client;
 	

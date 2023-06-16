@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.crossroad.sap.tools.archmig.data.BackendAdmiFilesRowMapper;
 import org.crossroad.sap.tools.archmig.job.MigrationProcessor;
+import org.crossroad.sap.tools.archmig.job.MigrationReader;
 import org.crossroad.sap.tools.archmig.job.MigrationWriter;
 import org.crossroad.sap.tools.archmig.jpa.entities.BackendAdmiFiles;
 import org.slf4j.Logger;
@@ -17,7 +18,6 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.repository.JobRepository;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,6 +30,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  * @author e.soden
  *
  */
+@SuppressWarnings("unused")
 @Configuration
 @EnableBatchProcessing
 public class JobConfiguration {
@@ -40,27 +41,19 @@ public class JobConfiguration {
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 
-	@Autowired
-	@Qualifier(value = "archmig.sap.db.ds")
-	DataSource ds;
-
 	@Bean(name = "archmig.reader")
-	public JdbcCursorItemReader<BackendAdmiFiles> jdbcCursorItemReader(
-			@Value("${batch.sap.jdbc.fetch-size:2000}") int fetchSize,
-			@Value("${batch.sap.jdbc.read-start:0}") int startRead, @Value("${batch.content-rep.source}") String crep) {
+	public MigrationReader jdbcCursorItemReader(
+			@Qualifier(value = "archmig.sap.db.ds") DataSource ds,
+			@Value(value = "${migration.jdbc.fetch-size:2000}") int fetchSize) {
 		log.debug("Creating archmig.reader...");
-		JdbcCursorItemReader<BackendAdmiFiles> cursorItemReader = new JdbcCursorItemReader<>();
-		String sqlStmt = String.format("SELECT * FROM ADMI_FILES WHERE CREP = '%s'", crep);
+		MigrationReader reader = new MigrationReader();
+		reader.setFetchSize(fetchSize);
 
-		log.debug("Use SQL [{}]", sqlStmt);
-
-		cursorItemReader.setSql(sqlStmt);
-		cursorItemReader.setFetchSize(fetchSize);
-		cursorItemReader.setCurrentItemCount(startRead);
-		cursorItemReader.setName("SAP ADMI_FILES reader");
-		cursorItemReader.setDataSource(ds);
-		cursorItemReader.setRowMapper(new BackendAdmiFilesRowMapper());
-		return cursorItemReader;
+		reader.setSql("SELECT 1 FROM DUMMY");
+		reader.setName("SAP ADMI_FILES reader");
+		reader.setDataSource(ds);
+		reader.setRowMapper(new BackendAdmiFilesRowMapper());
+		return reader;
 	}
 
 	@Bean(name = "archmig.writer")
@@ -77,7 +70,7 @@ public class JobConfiguration {
 	}
 
 	@Bean(name = "archmig.step")
-	public Step migStep(@Qualifier(value = "archmig.reader") JdbcCursorItemReader<BackendAdmiFiles> reader,
+	public Step migStep(@Qualifier(value = "archmig.reader") MigrationReader reader,
 			@Qualifier(value = "archmig.processor") MigrationProcessor processor,
 			@Qualifier(value = "archmig.writer") MigrationWriter writer,
 			@Value("${batch.thread-pool.core:3}") int chunk) {

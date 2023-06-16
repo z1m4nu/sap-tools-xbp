@@ -6,7 +6,6 @@ package org.crossroad.sap.tools.archmig.job;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.crossroad.sap.tools.archmig.data.Status;
 import org.crossroad.sap.tools.archmig.jpa.entities.BackendAdmiFiles;
 import org.crossroad.sap.tools.archmig.jpa.entities.MigrationLog;
 import org.crossroad.sap.tools.archmig.jpa.repositories.BackendAdmiFilesRepository;
@@ -32,31 +31,28 @@ public class MigrationWriter implements ItemWriter<BackendAdmiFiles> {
 
 	@Override
 	public void write(List<? extends BackendAdmiFiles> items) throws Exception {
-		
-		
-		
-		for(BackendAdmiFiles item : items) {
-			MigrationLog migLog = new MigrationLog();
-			migLog.setArchivKey(item.getArchivKey());
-			migLog.setDocument(item.getDocument());
-			migLog.setSid(item.getSid());
-			migLog.setClient(item.getClient());
-			migLog.setPosted(LocalDateTime.now());
+		for (BackendAdmiFiles item : items) {
+			
+
+			log.debug("CREP {} OldArchDocId {} Status {}", item.getOldCrep(), item.getOldArchDocId(),
+					item.getStatusOp());
+
 			try {
 				repository.save(item);
+			} catch (Exception e) {
+				log.error(String.format("Error while saving information for '%s' - '%s'", item.getArchivKey(), item.getDocument()),e);
 				
-				migLog.setSeverity(Status.SUCCESS.name());
-				migLog.setMsg("Data saved");
-			} catch(Exception e)
-			{
-				migLog.setSeverity(Status.ERROR.name());
+				MigrationLog migLog = new MigrationLog();
+				migLog.setArchivKey(item.getArchivKey());
+				migLog.setDocument(item.getDocument());
+				migLog.setSid(item.getSid());
+				migLog.setClient(item.getClient());
+				migLog.setSeverity(item.getStatusOp());
+				migLog.setPosted(LocalDateTime.now());
 				migLog.setMsg(ExceptionUtils.sumarizeException(e));
+				logRepository.save(migLog);
 			}
-			
-			logRepository.save(migLog);
 		}
-		
-
 	}
 
 }
