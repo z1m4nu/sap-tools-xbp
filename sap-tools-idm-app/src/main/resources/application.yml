@@ -1,0 +1,33 @@
+server:
+  port: ${PORT:9981}
+
+
+spring:
+  application:
+    name: idm-backend
+  batch:
+    job:
+      enabled: false    
+  cloud:
+    config:
+      import-check:
+        enabled: false
+  main:
+    allow-bean-definition-overriding: true
+  mustache:
+    check-template-location: false
+
+logging:
+  level:
+    org.crossroad: debug
+    org.springframework.ws.client.support: debug
+
+sap:
+  endpoints:
+    ecc-dev:
+      endpoint: https://BAVSW030028.tally-weijl.ch:44300/zidm-operation
+      username: SODEE
+      password: Crossroad1
+
+    
+
